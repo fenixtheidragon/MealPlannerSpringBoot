@@ -25,6 +25,10 @@ public class Dish {
   @NonNull
   private String name;
 
+  @Column
+  @NonNull
+  private String description;
+
   @OneToMany(mappedBy = "dish")
   private Set<Recipe> recipes;
 

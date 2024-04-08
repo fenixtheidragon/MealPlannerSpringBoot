@@ -19,12 +19,12 @@ public class Recipe {
 
   @ManyToOne
   @MapsId("dishId")
-  @JoinColumn(name = "dishId")
+  @JoinColumn(name = "dish_id")
   Dish dish;
 
   @ManyToOne
   @MapsId("ingredientId")
-  @JoinColumn(name="ingredientId")
+  @JoinColumn(name="ingredient_id")
   Ingredient ingredient;
 
   int amount;
