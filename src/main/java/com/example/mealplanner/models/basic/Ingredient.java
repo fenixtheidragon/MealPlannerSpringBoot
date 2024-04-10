@@ -22,15 +22,17 @@ public class Ingredient {
 
   @Column(unique = true)
   @NonNull
-  private String name;
-
-  @Column
-  private int availableAmount;
+  private String name = "";
 
   @Column
   @NonNull
-  private AmountType amountType;
+  private int availableAmount = 0;
 
+  @Column
+  @NonNull
+  private AmountType amountType = AmountType.GRAMS;
+
+  @Transient
   @OneToMany(mappedBy = "ingredient")
   private Set<DishToIngredientRelation> dishToIngredientRelations;
 

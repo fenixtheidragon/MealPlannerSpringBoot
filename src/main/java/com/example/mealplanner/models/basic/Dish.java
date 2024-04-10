@@ -1,5 +1,6 @@
 package com.example.mealplanner.models.basic;
 
+import com.example.mealplanner.helpers.enums.AmountType;
 import com.example.mealplanner.models.composite.DishToIngredientRelation;
 import com.example.mealplanner.models.composite.DishToMealRelation;
 import jakarta.persistence.*;
@@ -30,6 +31,9 @@ public class Dish {
 
   @Column
   private int availableAmount;
+
+  @Column
+  private AmountType amountType;
 
   @OneToMany(mappedBy = "dish")
   private Set<DishToIngredientRelation> dishToIngredientRelations;
