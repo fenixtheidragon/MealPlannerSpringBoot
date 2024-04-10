@@ -18,9 +18,9 @@ public enum MealCategory {
   private final String name;
   private final String number;
 
-  public static MealCategory getMealCategoryByInput(String input) {
+  public static MealCategory getMealCategoryByNumber(String number) {
     for (var type : MealCategory.values()) {
-      if (type.getNumber().equals(input)) {
+      if (type.getNumber().equals(number)) {
         return type;
       }
     }
@@ -29,11 +29,11 @@ public enum MealCategory {
 
   public static String getDescription() {
     var sb = new StringBuilder();
-    for (var MealCategory : MealCategory.values()) {
-      sb.append(MealCategory.getNumber())
-          .append(". ").
-          append(MealCategory.getName()).
-          append(";")
+    for (var mealCategory : MealCategory.values()) {
+      sb.append(mealCategory.getNumber())
+          .append(". ")
+          .append(mealCategory.getName())
+          .append(";")
           .append(System.lineSeparator());
     }
     return sb.delete(sb.length() - 1, sb.length()).toString();

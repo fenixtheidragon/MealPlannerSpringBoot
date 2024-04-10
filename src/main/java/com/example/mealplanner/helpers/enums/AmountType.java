@@ -5,10 +5,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum AmountType {
-  KG("kilograms"),
-  G("grams"),
-  L("litres"),
-  PCS("pieces");
+  KILOGRAMS("kg"),
+  GRAMS("g"),
+  LITRES("l"),
+  PIECES("pcs");
 
-  private final String description;
+  private final String code;
 }

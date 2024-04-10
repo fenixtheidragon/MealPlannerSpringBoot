@@ -1,4 +1,4 @@
-package com.example.mealplanner.tables.composite.keys;
+package com.example.mealplanner.models.composite.keys;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Embeddable
 @Data
-public class RecipeKey implements Serializable {
+public class DishToIngredientKey implements Serializable {
   @Column(name="dish_id")
   private Long dishId;
 

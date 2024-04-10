@@ -1,6 +1,6 @@
-package com.example.mealplanner.tables.basic;
+package com.example.mealplanner.models.basic;
 
-import com.example.mealplanner.tables.composite.Menu;
+import com.example.mealplanner.models.composite.DishToMealRelation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,9 +25,12 @@ public class Meal {
   @NonNull
   private MealCategory mealCategory;
 
-  @OneToMany(mappedBy = "meal")
-  private Set<Menu> menu;
+  @Column(columnDefinition = "TEXT")
+  private String description;
 
-  @ManyToMany(mappedBy = "mealsForTheDay")
+  @OneToMany(mappedBy = "meal")
+  private Set<DishToMealRelation> dishToMealRelations;
+
+  @ManyToMany(mappedBy = "meals")
   private List<Day> days;
 }

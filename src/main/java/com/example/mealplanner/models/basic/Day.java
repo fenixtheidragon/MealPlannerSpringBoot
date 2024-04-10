@@ -1,4 +1,4 @@
-package com.example.mealplanner.tables.basic;
+package com.example.mealplanner.models.basic;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,14 +22,14 @@ public class Day {
   @NonNull
   private String name;
 
-  @Column
-  private String description;
+  @Column(columnDefinition = "TEXT")
+  private String notes;
 
   @ManyToMany
   @JoinTable(
-      name = "meals_for_the_day",
+      name = "days_meals",
       joinColumns = @JoinColumn(name = "day_id"),
       inverseJoinColumns = @JoinColumn(name="meal_id")
   )
-  private List<Meal> mealsForTheDay;
+  private List<Meal> meals;
 }

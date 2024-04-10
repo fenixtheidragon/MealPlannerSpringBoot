@@ -1,7 +1,7 @@
-package com.example.mealplanner.tables.basic;
+package com.example.mealplanner.models.basic;
 
 import com.example.mealplanner.helpers.enums.AmountType;
-import com.example.mealplanner.tables.composite.Recipe;
+import com.example.mealplanner.models.composite.DishToIngredientRelation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,12 +25,16 @@ public class Ingredient {
   private String name;
 
   @Column
-  private int amount;
+  private int availableAmount;
 
   @Column
   @NonNull
   private AmountType amountType;
 
   @OneToMany(mappedBy = "ingredient")
-  private Set<Recipe> recipes;
+  private Set<DishToIngredientRelation> dishToIngredientRelations;
+
+  public boolean isAvailable() {
+    return availableAmount > 0;
+  }
 }
