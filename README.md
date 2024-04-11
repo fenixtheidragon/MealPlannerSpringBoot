@@ -32,5 +32,5 @@ The following guides illustrate how to use some features concretely:
 
 - Чтобы создать .jar:
    * ./mvnw clean package
-- Чтобы запустить .jar:
+- Чтобы запустить .jar (остановить Ctrl+C):
    * java -jar target/mealplanner.jar
