@@ -19,14 +19,14 @@ The following guides illustrate how to use some features concretely:
 
 1) Скачать архив;
 2) В терминале перейти в папку с архивом:       
-* cd /home/username/Downloads
+   * cd /home/username/Downloads
 3) Распаковать:
-* unzip mealplanner.zip
+   * unzip mealplanner.zip
 4) Перейти в распакованный архив:
-* cd MealPlannerSpringBoot-master
+   * cd MealPlannerSpringBoot-master
 5) 1) Запустить приложение:
-./mvnw spring-boot:run
+      * ./mvnw spring-boot:run
    2) Создать .jar:
-./mvnw clean package
+      * ./mvnw clean package
    3) Запустить .jar:
-java -jar target/mealplanner.jar
+      * java -jar target/mealplanner.jar
