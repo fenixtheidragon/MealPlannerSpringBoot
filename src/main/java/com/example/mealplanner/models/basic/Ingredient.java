@@ -32,8 +32,8 @@ public class Ingredient {
   @NonNull
   private AmountType amountType = AmountType.GRAMS;
 
-  @Transient
-  @OneToMany(mappedBy = "ingredient")
+
+  @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
   private Set<DishToIngredientRelation> dishToIngredientRelations;
 
   public boolean isAvailable() {

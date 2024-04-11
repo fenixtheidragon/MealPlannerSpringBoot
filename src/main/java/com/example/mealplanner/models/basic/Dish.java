@@ -35,10 +35,10 @@ public class Dish {
   @Column
   private AmountType amountType;
 
-  @OneToMany(mappedBy = "dish")
+  @OneToMany(mappedBy = "dish" , fetch = FetchType.LAZY)
   private Set<DishToIngredientRelation> dishToIngredientRelations;
 
-  @OneToMany(mappedBy = "dish")
+  @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY)
   private Set<DishToMealRelation> dishToMealRelations;
 
   public boolean isAvailable() {

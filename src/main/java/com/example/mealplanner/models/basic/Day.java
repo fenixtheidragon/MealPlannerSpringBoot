@@ -25,7 +25,7 @@ public class Day {
   @Column(columnDefinition = "TEXT")
   private String notes;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "days_meals",
       joinColumns = @JoinColumn(name = "day_id"),
