@@ -17,14 +17,15 @@ The following guides illustrate how to use some features concretely:
 * [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 
-1) Скачать архив;
-2) В терминале перейти в папку с архивом:       
+1) Установить postreSQL 15, создать бд с названием "meal_planner_db" (через pgadmin)
+2) Скачать архив;
+3) В терминале перейти в папку с архивом:       
    * cd /home/username/Downloads
-3) Распаковать:
+4) Распаковать:
    * unzip mealplanner.zip
-4) Перейти в распакованный архив:
+5) Перейти в распакованный архив:
    * cd MealPlannerSpringBoot-master
-5) 1) Запустить приложение:
+6) 1) Запустить приложение:
       * ./mvnw spring-boot:run
    2) Создать .jar:
       * ./mvnw clean package
