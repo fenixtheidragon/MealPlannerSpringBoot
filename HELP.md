@@ -24,6 +24,9 @@ cd /home/username/Downloads
 unzip mealplanner.zip
 4)Перейти в распакованный архив:
 cd MealPlannerSpringBoot-master
-5)Создать .jar:
+5)a)Запустить приложение:
+./mvnw spring-boot:run
+б)Создать .jar:
 ./mvnw clean package
-Запустить приложение: java -jar target/mealplanner.jar
+Запустить приложение:
+java -jar target/mealplanner.jar
