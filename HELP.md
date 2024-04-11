@@ -17,16 +17,16 @@ The following guides illustrate how to use some features concretely:
 * [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 
-1)Скачать архив;
-2)В терминале перейти в папку с архивом:       
-cd /home/username/Downloads
-3)Распаковать:
-unzip mealplanner.zip
-4)Перейти в распакованный архив:
-cd MealPlannerSpringBoot-master
-5)a)Запустить приложение:
+1) Скачать архив;
+2) В терминале перейти в папку с архивом:       
+* cd /home/username/Downloads
+3) Распаковать:
+* unzip mealplanner.zip
+4) Перейти в распакованный архив:
+* cd MealPlannerSpringBoot-master
+5) 1) Запустить приложение:
 ./mvnw spring-boot:run
-б)Создать .jar:
+   2) Создать .jar:
 ./mvnw clean package
-Запустить приложение:
+   3) Запустить .jar:
 java -jar target/mealplanner.jar
