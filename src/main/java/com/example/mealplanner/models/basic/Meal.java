@@ -28,9 +28,9 @@ public class Meal {
   @Column(columnDefinition = "TEXT")
   private String description;
 
-  @OneToMany(mappedBy = "meal")
+  @OneToMany(mappedBy = "meal",fetch = FetchType.LAZY)
   private Set<DishToMealRelation> dishToMealRelations;
 
-  @ManyToMany(mappedBy = "meals")
+  @ManyToMany(mappedBy = "meals", fetch = FetchType.LAZY)
   private List<Day> days;
 }

@@ -27,6 +27,7 @@ public class DishToIngredientRelation {
   private AmountType amountType;
 
   @ManyToOne
+  //TODO определить fetch.type для many-to-one
   @MapsId("dishId")
   @JoinColumn(name = "dish_id")
   private Dish dish;
