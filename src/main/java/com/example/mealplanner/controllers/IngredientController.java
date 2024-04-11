@@ -6,18 +6,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
 public class IngredientController {
 
   private final IngredientService service;
-
-  @RequestMapping("/")
-  public String getMainPage() {
-    return "Welcome to Meal Planner!";
-  }
 
   @GetMapping("/ingredients")
   public List<Ingredient> findAll() {
@@ -30,7 +24,7 @@ public class IngredientController {
   }
 
   @GetMapping("ingredients/{id}")
-  public Optional<Ingredient> findById(@RequestParam Long id) {
+  public Ingredient findById(@RequestParam Long id) {
     return service.findById(id);
   }
 }
