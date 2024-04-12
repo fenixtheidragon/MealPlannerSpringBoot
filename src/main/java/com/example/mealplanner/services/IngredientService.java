@@ -1,19 +1,22 @@
 package com.example.mealplanner.services;
 
 import com.example.mealplanner.models.basic.Ingredient;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface IngredientService {
-  Ingredient save(Ingredient ingredient);
 
-  List<Ingredient> findAll();
+  ResponseEntity<List<Ingredient>> findAll();
 
-  Ingredient findById(Long id);
+  ResponseEntity<Ingredient> findById(Long id);
 
-  Ingredient findByName(String name);
+  ResponseEntity<Ingredient> findByName(String name);
 
-  Ingredient update(Ingredient ingredient);
+  ResponseEntity<Ingredient> save(Ingredient ingredient);
 
-  void deleteByName(String name);
+  ResponseEntity<Ingredient> update(Ingredient ingredient);
+
+  ResponseEntity<HttpStatus> deleteByName(String name);
 }
