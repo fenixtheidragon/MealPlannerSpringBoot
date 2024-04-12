@@ -1,15 +1,17 @@
 package com.example.mealplanner.impl;
 
-import com.example.mealplanner.helpers.exceptions.IngredientNotFoundException;
 import com.example.mealplanner.models.basic.Ingredient;
 import com.example.mealplanner.repositories.IngredientRepository;
 import com.example.mealplanner.services.IngredientService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -18,47 +20,47 @@ public class IngredientServiceImpl implements IngredientService {
   private final IngredientRepository repository;
 
   @Override
-  public Ingredient findByName(String name) {
-    return repository.findByName(name)
-        .orElseThrow(() -> new IngredientNotFoundException("name", name));
+  public ResponseEntity<Ingredient> findByName(String name) {
+     return repository.findByName(name)
+         .orElseThrow(Res);
+     return createResponseEntityFrom(optionalIngredient);
   }
 
   @Override
-  public Ingredient findById(Long id) {
-    return repository.findById(id)
-        .orElseThrow(() -> new IngredientNotFoundException("id", Long.toString(id)));
+  public ResponseEntity<Ingredient> findById(Long id) {
+    var optionalIngredient = repository.findById(id);
+    return createResponseEntityFrom(optionalIngredient);
   }
 
   @Override
-  public List<Ingredient> findAll() {
-    return repository.findAll();
+  public ResponseEntity<List<Ingredient>> findAll() {
+    var optionalIngredientsList = repository.findAll();
+    if (!optionalIngredientsList.isEmpty()) {
+      return new ResponseEntity<>(repository.findAll(), HttpStatus.FOUND);
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 
   @Override
-  public Ingredient save(Ingredient ingredient) {
+  public ResponseEntity<Ingredient> save(Ingredient ingredient) {
     var optionalIngredient = repository.findByName(ingredient.getName());
-    if (optionalIngredient.isPresent()) {
-      throw new IllegalArgumentException("Ingredient with name " + ingredient.getName() + " already exists.");
+    if (optionalIngredient.isEmpty()) {
+      return new ResponseEntity<>(repository.save(ingredient), HttpStatus.CREATED);
+    }
+    return new ResponseEntity<>(HttpStatus.CONFLICT);
+  }
+
+  @Override
+  public ResponseEntity<Ingredient> update(Ingredient ingredient) {
+    var ingredientToBeUpdated = repository.findById(ingredient.getId());
+    if (ingredientToBeUpdated.isPresent()) {
+
     }
     return repository.save(ingredient);
   }
 
   @Override
-  public Ingredient update(Ingredient ingredient) {
-    var ingredientToBeUpdated = repository.findById(ingredient.getId())
-        .orElseThrow(() -> new NoSuchElementException("Ingredient with id=" + ingredient.getId() + "was not found."));
-
-    if (ingredient.getName().isEmpty()) {
-      throw new IllegalArgumentException("Name of ingredient must not be empty.");
-    }
-    if (ingredient.getAvailableAmount() < 0) {
-      throw new IllegalArgumentException("Available amount of ingredient can not be a negative number.");
-    }
-    return repository.save(ingredient);
-  }
-
-  @Override
-  public void deleteByName(String name) {
+  public ResponseEntity<HttpStatus> deleteByName(String name) {
     var ingredientToBeDeleted = findAll().stream()
         .filter(ingredient -> ingredient.getName().equals(name))
         .findFirst()
@@ -66,5 +68,13 @@ public class IngredientServiceImpl implements IngredientService {
     if (ingredientToBeDeleted != null) {
       repository.delete(ingredientToBeDeleted);
     }
+    return null;
+  }
+
+  private ResponseEntity<Ingredient> createResponseEntityFrom(Optional<Ingredient> optionalIngredient) {
+    if (optionalIngredient.isPresent()) {
+      return new ResponseEntity<>(optionalIngredient.get(), HttpStatus.FOUND);
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 }
