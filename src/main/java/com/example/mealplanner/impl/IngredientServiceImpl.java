@@ -1,5 +1,6 @@
 package com.example.mealplanner.impl;
 
+import com.example.mealplanner.helpers.exceptions.IngredientNotFoundException;
 import com.example.mealplanner.models.basic.Ingredient;
 import com.example.mealplanner.repositories.IngredientRepository;
 import com.example.mealplanner.services.IngredientService;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -18,13 +18,15 @@ public class IngredientServiceImpl implements IngredientService {
   private final IngredientRepository repository;
 
   @Override
-  public Optional<Ingredient> findByName(String name) {
-    return repository.findByName(name);
+  public Ingredient findByName(String name) {
+    return repository.findByName(name)
+        .orElseThrow(() -> new IngredientNotFoundException("name", name));
   }
 
   @Override
-  public Optional<Ingredient> findById(Long id) {
-    return repository.findById(id);
+  public Ingredient findById(Long id) {
+    return repository.findById(id)
+        .orElseThrow(() -> new IngredientNotFoundException("id", Long.toString(id)));
   }
 
   @Override
@@ -34,7 +36,7 @@ public class IngredientServiceImpl implements IngredientService {
 
   @Override
   public Ingredient save(Ingredient ingredient) {
-    Optional<Ingredient> optionalIngredient = repository.findByName(ingredient.getName());
+    var optionalIngredient = repository.findByName(ingredient.getName());
     if (optionalIngredient.isPresent()) {
       throw new IllegalArgumentException("Ingredient with name " + ingredient.getName() + " already exists.");
     }
@@ -43,7 +45,7 @@ public class IngredientServiceImpl implements IngredientService {
 
   @Override
   public Ingredient update(Ingredient ingredient) {
-    Ingredient ingredientToBeUpdated = repository.findById(ingredient.getId())
+    var ingredientToBeUpdated = repository.findById(ingredient.getId())
         .orElseThrow(() -> new NoSuchElementException("Ingredient with id=" + ingredient.getId() + "was not found."));
 
     if (ingredient.getName().isEmpty()) {
@@ -57,7 +59,7 @@ public class IngredientServiceImpl implements IngredientService {
 
   @Override
   public void deleteByName(String name) {
-    Ingredient ingredientToBeDeleted = findAll().stream()
+    var ingredientToBeDeleted = findAll().stream()
         .filter(ingredient -> ingredient.getName().equals(name))
         .findFirst()
         .orElseThrow(NoSuchElementException::new);
