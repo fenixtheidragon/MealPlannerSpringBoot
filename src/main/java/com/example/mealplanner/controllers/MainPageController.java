@@ -1,6 +1,8 @@
 package com.example.mealplanner.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class MainPageController {
   @RequestMapping("/")
-  public String welcome() {
-    return "Welcome to Meal Planner!";
+  public ResponseEntity<String> welcome() {
+    return new ResponseEntity<>("Welcome to Meal Planner!", HttpStatus.OK);
   }
 }
