@@ -16,4 +16,14 @@ public class GlobalExceptionHandler {
         new MealPlannerException(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND
     );
   }
+
+  @ExceptionHandler
+  public ResponseEntity<MealPlannerException> catchResourceAlreadyExistsException(
+      ResourceAlreadyExistsException e
+  ) {
+    log.error(e.getMessage(), e);
+    return new ResponseEntity<>(
+        new MealPlannerException(HttpStatus.CONFLICT.value(), e.getMessage()), HttpStatus.CONFLICT
+    );
+  }
 }
