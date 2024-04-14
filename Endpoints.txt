@@ -1,3 +1,8 @@
+/
+GET - возвращает строку с приветствием
+Requests nothing
+Returns body (ResponseEntity<String>) and HTTPStatus(OK)
+
 /ingredients
 
 example of body (full Ingredient):
@@ -6,6 +11,7 @@ example of body (full Ingredient):
     "amountType": "grams",
     "availableAmount": 1000
 }
+amountType possible values: grams, kilograms, pieces, litres
 
 1)GET - возвращает список ингредиентов в виде List
 Requests nothing
