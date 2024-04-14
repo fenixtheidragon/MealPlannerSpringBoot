@@ -1,14 +1,9 @@
-/
-GET - возвращает строку с приветствием
-Requests nothing
-Returns body (ResponseEntity<String>) and HTTPStatus(OK)
-
-/ingredients
+/api/ingredients
 
 example of body (full Ingredient):
 {
     "name": "Apple",
-    "amountType": "grams",
+    "amountType": "GRAMS",
     "availableAmount": 1000
 }
 amountType possible values: grams, kilograms, pieces, litres
@@ -29,13 +24,13 @@ Returns body (ResponseEntity<Ingredient>) and HTTPStatus(NOT_FOUND/CONFLICT/OK)
 Requests param (Long id) (example: /ingredients?id=1)
 Returns HTTPStatus(NOT_FOUND/OK)
 
-/ingredients/{id}
+/api/ingredients/{id}
 
 GET - находит один ингредиент по id
 Requests PathVariable (Long id) (example: /ingredients/1)
 Returns body (ResponseEntity<Ingredient>) and HTTPStatus(NOT_FOUND/FOUND)
 
-/ingredients/names/{name}
+/api/ingredients/names/{name}
 
 GET - находит один ингредиент по имени
 Request PathVariable (String name) (example: /ingredients/Apple)
