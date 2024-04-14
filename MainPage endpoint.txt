@@ -1,0 +1,4 @@
+/
+GET - возвращает строку с приветствием
+Requests nothing
+Returns body (ResponseEntity<String>) and HTTPStatus(OK)

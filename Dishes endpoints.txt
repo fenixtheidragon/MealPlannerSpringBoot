@@ -1,0 +1,38 @@
+/api/dishes
+
+example of body (full Dish):
+{
+    "name": "Single apple",
+    "recipe": "It is a single apple."
+    "amountType": "PIECES",
+    "availableAmount": 1
+}
+amountType possible values: grams, kilograms, pieces, litres
+
+1)GET - возвращает список блюд в виде List
+Requests nothing
+Returns body (ResponseEntity<List<Dish>>) and HTTPStatus(OK)
+
+2)POST - сохраняет одно блюдо
+Requests body (Dish)
+Returns body (ResponseEntity<Dish>) and HTTPStatus(CONFLICT/OK)
+
+3)PUT - обновляет информацию по одному блюду
+Requests body (Dish)
+Returns body (ResponseEntity<Dish>) and HTTPStatus(NOT_FOUND/CONFLICT/OK)
+
+4)DELETE - удаляет одно блюдо по id
+Requests param (Long id) (example: /dishes?id=1)
+Returns HTTPStatus(NOT_FOUND/OK)
+
+/api/dishes/{id}
+
+GET - находит одно блюдо по id
+Requests PathVariable (Long id) (example: /dishes/1)
+Returns body (ResponseEntity<Dish>) and HTTPStatus(NOT_FOUND/FOUND)
+
+/api/ingredients/names/{name}
+
+GET - находит одно блюдо по имени
+Request PathVariable (String name) (example: /dishes/Single apple)
+Returns body (ResponseEntity<Dish>) and HTTPStatus(NOT_FOUND/FOUND)
