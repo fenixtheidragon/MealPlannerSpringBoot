@@ -10,13 +10,13 @@ public interface IngredientService {
 
   ResponseEntity<List<Ingredient>> findAll();
 
-  ResponseEntity<Ingredient> findById(Long id);
-
-  ResponseEntity<Ingredient> findByName(String name);
-
   ResponseEntity<Ingredient> save(Ingredient ingredient);
 
   ResponseEntity<Ingredient> update(Ingredient ingredient);
 
   ResponseEntity<HttpStatus> deleteById(Long id);
+
+  ResponseEntity<Ingredient> findById(Long id);
+
+  ResponseEntity<Ingredient> findByName(String name);
 }

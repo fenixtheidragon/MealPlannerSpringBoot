@@ -22,20 +22,6 @@ public class IngredientServiceImpl implements IngredientService {
   private final IngredientRepository repository;
 
   @Override
-  public ResponseEntity<Ingredient> findByName(String name) {
-    var ingredient = repository.findByName(name)
-        .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "name", name));
-    return new ResponseEntity<>(ingredient, HttpStatus.FOUND);
-  }
-
-  @Override
-  public ResponseEntity<Ingredient> findById(Long id) {
-    var ingredient = repository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "id", String.valueOf(id)));
-    return new ResponseEntity<>(ingredient, HttpStatus.FOUND);
-  }
-
-  @Override
   public ResponseEntity<List<Ingredient>> findAll() {
     var ingredientList = repository.findAll();
     return new ResponseEntity<>(ingredientList, HttpStatus.OK);
@@ -62,6 +48,20 @@ public class IngredientServiceImpl implements IngredientService {
         .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "id", String.valueOf(id)));
     repository.deleteById(id);
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @Override
+  public ResponseEntity<Ingredient> findByName(String name) {
+    var ingredient = repository.findByName(name)
+        .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "name", name));
+    return new ResponseEntity<>(ingredient, HttpStatus.FOUND);
+  }
+
+  @Override
+  public ResponseEntity<Ingredient> findById(Long id) {
+    var ingredient = repository.findById(id)
+        .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "id", String.valueOf(id)));
+    return new ResponseEntity<>(ingredient, HttpStatus.FOUND);
   }
 
   private void validateUpdateRequest(Ingredient newIngredient) {
