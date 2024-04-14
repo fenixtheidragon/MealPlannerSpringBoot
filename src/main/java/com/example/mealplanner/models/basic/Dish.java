@@ -24,16 +24,16 @@ public class Dish {
 
   @Column
   @NonNull
-  private String name;
+  private String name = "";
 
   @Column(columnDefinition = "TEXT")
-  private String recipe;
+  private String recipe = "";
 
   @Column
-  private int availableAmount;
+  private int availableAmount = 0;
 
   @Column
-  private AmountType amountType;
+  private AmountType amountType = AmountType.GRAMS;
 
   @OneToMany(mappedBy = "dish" , fetch = FetchType.LAZY)
   private Set<DishToIngredientRelation> dishToIngredientRelations;
