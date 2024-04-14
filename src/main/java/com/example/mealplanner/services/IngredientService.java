@@ -18,5 +18,5 @@ public interface IngredientService {
 
   ResponseEntity<Ingredient> update(Ingredient ingredient);
 
-  ResponseEntity<HttpStatus> deleteByName(String name);
+  ResponseEntity<HttpStatus> deleteById(Long id);
 }
