@@ -11,37 +11,38 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
+@RequestMapping("/api/ingredients")
 @AllArgsConstructor
 public class IngredientController {
 
   private final IngredientService service;
 
-  @GetMapping("/ingredients")
+  @GetMapping
   public ResponseEntity<List<Ingredient>> findAll() {
     return service.findAll();
   }
 
-  @PostMapping("/ingredients")
+  @PostMapping
   public ResponseEntity<Ingredient> save(@RequestBody Ingredient newIngredient) {
     return service.save(newIngredient);
   }
 
-  @PutMapping("/ingredients")
+  @PutMapping
   public ResponseEntity<Ingredient> update(@RequestBody Ingredient newIngredient) {
     return service.update(newIngredient);
   }
 
-  @DeleteMapping("/ingredients")
+  @DeleteMapping
   public ResponseEntity<HttpStatus> delete(@RequestParam Long id) {
     return service.deleteById(id);
   }
 
-  @GetMapping("ingredients/{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<Ingredient> findById(@PathVariable Long id) {
     return service.findById(id);
   }
 
-  @GetMapping("/ingredients/names/{name}")
+  @GetMapping("/names/{name}")
   public ResponseEntity<Ingredient> findByName(@PathVariable String name) {
     return service.findByName(name);
   }
