@@ -37,12 +37,12 @@ public class IngredientController {
   }
 
   @GetMapping("ingredients/{id}")
-  public ResponseEntity<Ingredient> findById(@RequestParam Long id) {
+  public ResponseEntity<Ingredient> findById(@PathVariable Long id) {
     return service.findById(id);
   }
 
-  @GetMapping("/ingredients/{name}")
-  public ResponseEntity<Ingredient> findByName(@RequestParam String name) {
-    return service.findByName(name);
-  }
+//  @GetMapping("/ingredients/{name}")
+//  public ResponseEntity<Ingredient> findByName(@PathVariable String name) {
+//    return service.findByName(name);
+//  }
 }
