@@ -1,7 +1,9 @@
 package com.example.mealplanner.helpers.exceptions;
 
 public abstract class ResourceException extends RuntimeException {
-  private final static String mainMessageText = "%s with %s = %s %s.";
+
+  //example: Ingredient with parameter name = 'Apple' not found.
+  private final static String mainMessageText = "%s with parameter %s = '%s' %s.";
 
   public ResourceException(
       String resourceClassName, String fieldName, String fieldValueAsString, String problem
