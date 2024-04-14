@@ -6,7 +6,6 @@ import com.example.mealplanner.models.basic.Ingredient;
 import com.example.mealplanner.repositories.IngredientRepository;
 import com.example.mealplanner.services.IngredientService;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +32,7 @@ public class IngredientServiceImpl implements IngredientService {
     if (optionalIngredient.isPresent()) {
       throw new ResourceAlreadyExistsException(resourceClassName, "name", ingredient.getName());
     }
-    return new ResponseEntity<>(repository.save(ingredient), HttpStatus.CREATED);
+    return new ResponseEntity<>(repository.save(ingredient), HttpStatus.OK);
   }
 
   @Override
@@ -70,7 +69,7 @@ public class IngredientServiceImpl implements IngredientService {
             new ResourceNotFoundException(resourceClassName, "id", String.valueOf(newIngredient.getId()))
         );
     var optionalIngredient = repository.findByName(newIngredient.getName());
-    if (optionalIngredient.isPresent() && optionalIngredient.get().getId() != newIngredient.getId()) {
+    if (optionalIngredient.isPresent() && !optionalIngredient.get().getId().equals(newIngredient.getId())) {
       throw new ResourceAlreadyExistsException(resourceClassName, "name", newIngredient.getName());
     }
   }
