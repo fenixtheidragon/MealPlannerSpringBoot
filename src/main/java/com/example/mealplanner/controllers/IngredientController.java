@@ -41,8 +41,8 @@ public class IngredientController {
     return service.findById(id);
   }
 
-//  @GetMapping("/ingredients/{name}")
-//  public ResponseEntity<Ingredient> findByName(@PathVariable String name) {
-//    return service.findByName(name);
-//  }
+  @GetMapping("/ingredients/names/{name}")
+  public ResponseEntity<Ingredient> findByName(@PathVariable String name) {
+    return service.findByName(name);
+  }
 }

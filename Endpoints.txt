@@ -26,17 +26,17 @@ Requests body (Ingredient)
 Returns body (ResponseEntity<Ingredient>) and HTTPStatus(NOT_FOUND/CONFLICT/OK)
 
 4)DELETE - удаляет один ингредиент по id
-Requests param (Long id)
+Requests param (Long id) (example: /ingredients?id=1)
 Returns HTTPStatus(NOT_FOUND/OK)
 
 /ingredients/{id}
 
 GET - находит один ингредиент по id
-Requests param (Long id)
+Requests PathVariable (Long id) (example: /ingredients/1)
 Returns body (ResponseEntity<Ingredient>) and HTTPStatus(NOT_FOUND/FOUND)
 
-/ingredients/{name}
+/ingredients/names/{name}
 
 GET - находит один ингредиент по имени
-Request param (String name)
+Request PathVariable (String name) (example: /ingredients/Apple)
 Returns body (ResponseEntity<Ingredient>) and HTTPStatus(NOT_FOUND/FOUND)
