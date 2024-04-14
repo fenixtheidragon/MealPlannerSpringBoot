@@ -40,4 +40,9 @@ public class IngredientController {
   public ResponseEntity<Ingredient> findById(@RequestParam Long id) {
     return service.findById(id);
   }
+
+  @GetMapping("/ingredients/{name}")
+  public ResponseEntity<Ingredient> findByName(@RequestParam String name) {
+    return service.findByName(name);
+  }
 }

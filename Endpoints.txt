@@ -1,0 +1,36 @@
+/ingredients
+
+example of body (full Ingredient):
+{
+    "name": "Apple",
+    "amountType": "grams",
+    "availableAmount": 1000
+}
+
+1)GET - возвращает список ингредиентов в виде List
+Requests nothing
+Returns body (ResponseEntity<List<Ingredient>>) and HTTPStatus(OK)
+
+2)POST - сохраняет один ингредиент
+Requests body (Ingredient)
+Returns body (ResponseEntity<Ingredient>) and HTTPStatus(CONFLICT/OK)
+
+3)PUT - обновляет информацию по одному ингредиенту
+Requests body (Ingredient)
+Returns body (ResponseEntity<Ingredient>) and HTTPStatus(NOT_FOUND/CONFLICT/OK)
+
+4)DELETE - удаляет один ингредиент по id
+Requests param (Long id)
+Returns HTTPStatus(NOT_FOUND/OK)
+
+/ingredients/{id}
+
+GET - находит один ингредиент по id
+Requests param (Long id)
+Returns body (ResponseEntity<Ingredient>) and HTTPStatus(NOT_FOUND/FOUND)
+
+/ingredients/{name}
+
+GET - находит один ингредиент по имени
+Request param (String name)
+Returns body (ResponseEntity<Ingredient>) and HTTPStatus(NOT_FOUND/FOUND)
