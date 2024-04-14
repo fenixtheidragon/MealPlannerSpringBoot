@@ -18,7 +18,7 @@ import java.util.Set;
 public class Ingredient {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+  private Long id;
 
   @Column(unique = true)
   @NonNull
