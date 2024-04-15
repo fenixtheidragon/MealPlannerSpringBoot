@@ -1,5 +1,6 @@
 package com.example.mealplanner.repositories;
 
+import com.example.mealplanner.helpers.enums.MealCategory;
 import com.example.mealplanner.models.basic.Meal;
 import org.springframework.data.jpa.repository.JpaRepository;
 

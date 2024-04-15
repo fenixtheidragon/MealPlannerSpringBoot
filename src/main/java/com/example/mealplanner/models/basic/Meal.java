@@ -11,7 +11,7 @@ import org.springframework.lang.NonNull;
 import java.util.List;
 import java.util.Set;
 
-@Table(name="meals")
+@Table(name = "meals")
 @Entity
 @Data
 @AllArgsConstructor
@@ -19,16 +19,21 @@ import java.util.Set;
 public class Meal {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+  private Long id;
+
+  @Column(unique = true)
+  @NonNull
+  private String name = "";
+
 
   @Column
   @NonNull
-  private MealCategory mealCategory;
+  private MealCategory category = MealCategory.UNCATEGORIZED;
 
   @Column(columnDefinition = "TEXT")
-  private String description;
+  private String description = "";
 
-  @OneToMany(mappedBy = "meal",fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "meal", fetch = FetchType.LAZY)
   private Set<DishToMealRelation> dishToMealRelations;
 
   @ManyToMany(mappedBy = "meals", fetch = FetchType.LAZY)
