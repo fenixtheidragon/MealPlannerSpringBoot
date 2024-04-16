@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.time.DayOfWeek;
 import java.util.List;
 
 @Entity
@@ -18,12 +19,12 @@ public class Day {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column
+  @Column(unique = true)
   @NonNull
-  private String name;
+  private DayOfWeek name;
 
   @Column(columnDefinition = "TEXT")
-  private String notes;
+  private String notes = "";
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
