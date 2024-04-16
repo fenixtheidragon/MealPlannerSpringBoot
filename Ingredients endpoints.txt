@@ -12,11 +12,11 @@ amountType possible values: grams, kilograms, pieces, litres
 Requests nothing
 Returns body (ResponseEntity<List<Ingredient>>) and HTTPStatus(OK)
 
-2)POST - сохраняет один ингредиент
+2)POST - сохраняет один ингредиент и возвращает сохраненный
 Requests body (Ingredient)
 Returns body (ResponseEntity<Ingredient>) and HTTPStatus(CONFLICT/OK)
 
-3)PUT - обновляет информацию по одному ингредиенту
+3)PUT - обновляет информацию по одному ингредиенту и возвращает сохраненный
 Requests body (Ingredient)
 Returns body (ResponseEntity<Ingredient>) and HTTPStatus(NOT_FOUND/CONFLICT/OK)
 

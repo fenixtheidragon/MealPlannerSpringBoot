@@ -13,11 +13,11 @@ amountType possible values: grams, kilograms, pieces, litres
 Requests nothing
 Returns body (ResponseEntity<List<Dish>>) and HTTPStatus(OK)
 
-2)POST - сохраняет одно блюдо
+2)POST - сохраняет одно блюдо и возвращает сохранённое
 Requests body (Dish)
 Returns body (ResponseEntity<Dish>) and HTTPStatus(CONFLICT/OK)
 
-3)PUT - обновляет информацию по одному блюду
+3)PUT - обновляет информацию по одному блюду и возвращает сохраненное
 Requests body (Dish)
 Returns body (ResponseEntity<Dish>) and HTTPStatus(NOT_FOUND/CONFLICT/OK)
 
@@ -31,7 +31,7 @@ GET - находит одно блюдо по id
 Requests PathVariable (Long id) (example: /dishes/1)
 Returns body (ResponseEntity<Dish>) and HTTPStatus(NOT_FOUND/FOUND)
 
-/api/ingredients/names/{name}
+/api/dishes/names/{name}
 
 GET - находит одно блюдо по имени
 Request PathVariable (String name) (example: /dishes/Single apple)
