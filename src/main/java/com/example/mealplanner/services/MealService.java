@@ -1,6 +1,5 @@
 package com.example.mealplanner.services;
 
-import com.example.mealplanner.helpers.enums.MealCategory;
 import com.example.mealplanner.models.basic.Meal;
 import org.springframework.http.ResponseEntity;
 
