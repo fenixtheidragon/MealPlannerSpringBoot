@@ -3,6 +3,7 @@ package com.example.mealplanner.models.basic;
 import com.example.mealplanner.helpers.enums.AmountType;
 import com.example.mealplanner.models.composite.DishToIngredientRelation;
 import com.example.mealplanner.models.composite.DishToMealRelation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,9 +39,11 @@ public class Dish {
   private AmountType amountType = AmountType.GRAMS;
 
   @OneToMany(mappedBy = "dish" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
   private Set<DishToIngredientRelation> dishToIngredientRelations = new HashSet<>();
 
   @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
   private Set<DishToMealRelation> dishToMealRelations = new HashSet<>();
 
   public boolean isAvailable() {
