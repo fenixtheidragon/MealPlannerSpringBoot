@@ -30,7 +30,7 @@ public class DishToMealRelation {
   private Dish dish;
 
   @Column
-  private int amount;
+  private int amountOfDish;
 
   @Column
   @NonNull

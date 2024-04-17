@@ -16,24 +16,29 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DishToIngredientRelation {
-  @EmbeddedId
-  DishToIngredientKey id;
+  /*@EmbeddedId
+  DishToIngredientKey id;*/
+
+  @Id
+  @GeneratedValue
+  @Column(name="DishToIngredientRelationId")
+  private Long id;
 
   @Column
-  int amount;
+  int amountOfIngredient;
 
   @Column
   @NonNull
   private AmountType amountType;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   //TODO определить fetch.type для many-to-one
-  @MapsId("dishId")
+  //@MapsId("dishId")
   @JoinColumn(name = "dish_id")
   private Dish dish;
 
   @ManyToOne
-  @MapsId("ingredientId")
+  //@MapsId("ingredientId")
   @JoinColumn(name="ingredient_id")
   private Ingredient ingredient;
 }

@@ -64,12 +64,12 @@ public class IngredientServiceImpl implements IngredientService {
   }
 
   private void validateUpdateRequest(Ingredient newIngredient) {
-    repository.findById(newIngredient.getId())
+    repository.findById(newIngredient.getIngredientId())
         .orElseThrow(() ->
-            new ResourceNotFoundException(resourceClassName, "id", String.valueOf(newIngredient.getId()))
+            new ResourceNotFoundException(resourceClassName, "id", String.valueOf(newIngredient.getIngredientId()))
         );
     var optionalIngredient = repository.findByName(newIngredient.getName());
-    if (optionalIngredient.isPresent() && !optionalIngredient.get().getId().equals(newIngredient.getId())) {
+    if (optionalIngredient.isPresent() && !optionalIngredient.get().getIngredientId().equals(newIngredient.getIngredientId())) {
       throw new ResourceAlreadyExistsException(resourceClassName, "name", newIngredient.getName());
     }
   }

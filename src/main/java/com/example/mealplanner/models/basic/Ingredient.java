@@ -2,12 +2,14 @@ package com.example.mealplanner.models.basic;
 
 import com.example.mealplanner.helpers.enums.AmountType;
 import com.example.mealplanner.models.composite.DishToIngredientRelation;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +20,8 @@ import java.util.Set;
 public class Ingredient {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  @Column
+  private Long ingredientId;
 
   @Column(unique = true)
   @NonNull
@@ -33,10 +36,15 @@ public class Ingredient {
   private AmountType amountType = AmountType.GRAMS;
 
 
-  @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY)
-  private Set<DishToIngredientRelation> dishToIngredientRelations;
+  @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JsonIgnore
+  private Set<DishToIngredientRelation> dishToIngredientRelations = new HashSet<>();
 
   public boolean isAvailable() {
     return availableAmount > 0;
+  }
+
+  public void addDishToIngredientRelation(DishToIngredientRelation relation) {
+    this.dishToIngredientRelations.add(relation);
   }
 }

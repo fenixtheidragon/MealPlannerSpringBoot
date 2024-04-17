@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,7 +21,8 @@ public class Dish {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
+  @Column
+  private Long dishId;
 
   @Column
   @NonNull
@@ -35,13 +37,17 @@ public class Dish {
   @Column
   private AmountType amountType = AmountType.GRAMS;
 
-  @OneToMany(mappedBy = "dish" , fetch = FetchType.LAZY)
-  private Set<DishToIngredientRelation> dishToIngredientRelations;
+  @OneToMany(mappedBy = "dish" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Set<DishToIngredientRelation> dishToIngredientRelations = new HashSet<>();
 
-  @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY)
-  private Set<DishToMealRelation> dishToMealRelations;
+  @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Set<DishToMealRelation> dishToMealRelations = new HashSet<>();
 
   public boolean isAvailable() {
     return availableAmount > 0;
+  }
+
+  public void addDishToIngredientRelation(DishToIngredientRelation relation) {
+    this.dishToIngredientRelations.add(relation);
   }
 }
