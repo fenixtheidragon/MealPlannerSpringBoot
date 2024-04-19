@@ -20,7 +20,7 @@ public class DishToIngredientRelation {
   DishToIngredientKey id;*/
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name="DishToIngredientRelationId")
   private Long id;
 

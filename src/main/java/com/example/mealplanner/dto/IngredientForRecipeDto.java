@@ -4,8 +4,9 @@ import com.example.mealplanner.helpers.enums.AmountType;
 import lombok.Data;
 
 @Data
-public class IngredientDto {
-  private String name;
-  private int availableAmount;
+public class IngredientForRecipeDto {
+  private Long ingredientId;
+  private String ingredientName;
+  private int amountOfIngredient;
   private AmountType amountType;
 }

@@ -1,12 +1,14 @@
 package com.example.mealplanner.impl;
 
-import com.example.mealplanner.helpers.exceptions.ResourceAlreadyExistsException;
+import com.example.mealplanner.dto.IngredientForRecipeDto;
+import com.example.mealplanner.dto.RecipeDto;
 import com.example.mealplanner.helpers.exceptions.ResourceNotFoundException;
 import com.example.mealplanner.models.basic.Dish;
 import com.example.mealplanner.models.basic.Ingredient;
 import com.example.mealplanner.models.composite.DishToIngredientRelation;
 import com.example.mealplanner.repositories.DishRepository;
 import com.example.mealplanner.repositories.DishToIngredientRelationRepository;
+import com.example.mealplanner.repositories.IngredientRepository;
 import com.example.mealplanner.services.DishToIngredientRelationService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -22,22 +24,38 @@ import java.util.List;
 @Primary
 public class DishToIngredientRelationServiceImpl implements DishToIngredientRelationService {
 
+  private final IngredientRepository ingredientRepository;
   private final DishRepository dishRepository;
   private final DishToIngredientRelationRepository dToIRelationRepository;
 
   @Override
-  public ResponseEntity<List<Ingredient>> findIngredientsByDishId(Long dishId) {
-    var dish = validateDish(dishId);
-    var ingredientList = new ArrayList<Ingredient>();
-    dish.getDishToIngredientRelations().forEach(a -> ingredientList.add(a.getIngredient()));
-    return new ResponseEntity<>(ingredientList, HttpStatus.OK);
+  public ResponseEntity<RecipeDto> getRecipeDtoByDishId(Long dishId) {
+    var dish = validateAndReturnDish(dishId);
+    var recipeDto = getRecipe(dish);
+    return new ResponseEntity<>(recipeDto, HttpStatus.OK);
   }
 
   @Override
-  public ResponseEntity<List<DishToIngredientRelation>> saveIngredientsToDishRelations(
-      List<DishToIngredientRelation> relationList, Long dishId
+  public ResponseEntity<List<DishToIngredientRelation>> saveIngredientToDishRelations(
+      List<IngredientForRecipeDto> ingredientForRecipeDtoList, Long dishId
   ) {
-    relationList.forEach(dToIRelationRepository::save);
+    var dish = validateAndReturnDish(dishId);
+    var relationList = new ArrayList<DishToIngredientRelation>();
+    ingredientForRecipeDtoList.forEach(ingredientDTO -> {
+      var relation = new DishToIngredientRelation();
+      relation.setDish(dish);
+      var ingredient = ingredientRepository.findById(ingredientDTO.getIngredientId())
+          .orElseThrow(() ->
+              new ResourceNotFoundException(
+                  Ingredient.class.getName(), "id", String.valueOf(ingredientDTO.getIngredientId())
+              )
+          );
+      relation.setIngredient(ingredient);
+      relation.setAmountOfIngredient(ingredientDTO.getAmountOfIngredient());
+      relation.setAmountType(ingredientDTO.getAmountType());
+      dToIRelationRepository.save(relation);
+      relationList.add(relation);
+    });
     return new ResponseEntity<>(relationList, HttpStatus.OK);
   }
 
@@ -49,13 +67,6 @@ public class DishToIngredientRelationServiceImpl implements DishToIngredientRela
   @Override
   public ResponseEntity<HttpStatus> deleteIngredientsToDishRelations(List<Long> ingredientIdList, Long dishId) {
     return null;
-  }
-
-  private Dish validateDish(Long dishId) {
-    return dishRepository.findById(dishId)
-        .orElseThrow(() ->
-            new ResourceNotFoundException(Dish.class.getName(), "id", String.valueOf(dishId))
-        );
   }
 
   @Override
@@ -92,5 +103,36 @@ public class DishToIngredientRelationServiceImpl implements DishToIngredientRela
             new ResourceNotFoundException(DishToIngredientRelation.class.getName(), "id", String.valueOf(id))
         );
     return new ResponseEntity<>(relation, HttpStatus.FOUND);
+  }
+
+  private Dish validateAndReturnDish(Long dishId) {
+    return dishRepository.findById(dishId)
+        .orElseThrow(() ->
+            new ResourceNotFoundException(Dish.class.getName(), "id", String.valueOf(dishId))
+        );
+  }
+
+  private RecipeDto getRecipe(Dish dish) {
+    var ingredientForRecipeDtoList = getIngredientForRecipeDtoList(dish);
+    var recipeDto = new RecipeDto();
+    recipeDto.setDishId(dish.getDishId());
+    recipeDto.setDishName(dish.getName());
+    recipeDto.setIngredientForRecipeDtoList(ingredientForRecipeDtoList);
+    return recipeDto;
+  }
+
+  private List<IngredientForRecipeDto> getIngredientForRecipeDtoList(Dish dish) {
+    var ingredientForRecipeDtoList = new ArrayList<IngredientForRecipeDto>();
+    dish.getDishToIngredientRelations().forEach(relation -> {
+          var ingredientForRecipeDto = new IngredientForRecipeDto();
+          var ingredient = relation.getIngredient();
+          ingredientForRecipeDto.setIngredientId(ingredient.getIngredientId());
+          ingredientForRecipeDto.setIngredientName(ingredient.getName());
+          ingredientForRecipeDto.setAmountOfIngredient(relation.getAmountOfIngredient());
+          ingredientForRecipeDto.setAmountType(relation.getAmountType());
+          ingredientForRecipeDtoList.add(ingredientForRecipeDto);
+        }
+    );
+    return ingredientForRecipeDtoList;
   }
 }
