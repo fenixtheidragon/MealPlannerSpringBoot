@@ -64,12 +64,12 @@ public class DishServiceImpl implements DishService {
   }
 
   private void validateUpdateRequest(Dish dish) {
-    repository.findById(dish.getDishId())
+    repository.findById(dish.getId())
         .orElseThrow(() ->
-            new ResourceNotFoundException(resourceClassName, "id", String.valueOf(dish.getDishId()))
+            new ResourceNotFoundException(resourceClassName, "id", String.valueOf(dish.getId()))
         );
     var optionalDish = repository.findByName(dish.getName());
-    if (optionalDish.isPresent() && !optionalDish.get().getDishId().equals(dish.getDishId())) {
+    if (optionalDish.isPresent() && !optionalDish.get().getId().equals(dish.getId())) {
       throw new ResourceAlreadyExistsException(resourceClassName, "name", dish.getName());
     }
   }

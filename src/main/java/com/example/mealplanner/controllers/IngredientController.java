@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/ingredients")
 public class IngredientController extends AbstractMealPlannerController<Ingredient> {
   private final IngredientService service;
-  public IngredientController(IngredientService service, DishToIngredientRelationService dToIRelService) {
+  public IngredientController(IngredientService service) {
     super(service);
     this.service = service;
   }

@@ -115,7 +115,7 @@ public class DishToIngredientRelationServiceImpl implements DishToIngredientRela
   private RecipeDto getRecipe(Dish dish) {
     var ingredientForRecipeDtoList = getIngredientForRecipeDtoList(dish);
     var recipeDto = new RecipeDto();
-    recipeDto.setDishId(dish.getDishId());
+    recipeDto.setDishId(dish.getId());
     recipeDto.setDishName(dish.getName());
     recipeDto.setIngredientForRecipeDtoList(ingredientForRecipeDtoList);
     return recipeDto;
@@ -126,7 +126,7 @@ public class DishToIngredientRelationServiceImpl implements DishToIngredientRela
     dish.getDishToIngredientRelations().forEach(relation -> {
           var ingredientForRecipeDto = new IngredientForRecipeDto();
           var ingredient = relation.getIngredient();
-          ingredientForRecipeDto.setIngredientId(ingredient.getIngredientId());
+          ingredientForRecipeDto.setIngredientId(ingredient.getId());
           ingredientForRecipeDto.setIngredientName(ingredient.getName());
           ingredientForRecipeDto.setAmountOfIngredient(relation.getAmountOfIngredient());
           ingredientForRecipeDto.setAmountType(relation.getAmountType());

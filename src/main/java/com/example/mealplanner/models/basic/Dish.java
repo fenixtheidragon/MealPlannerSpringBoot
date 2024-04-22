@@ -23,7 +23,7 @@ public class Dish {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column
-  private Long dishId;
+  private Long id;
 
   @Column
   @NonNull

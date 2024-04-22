@@ -16,18 +16,11 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DishToMealRelation {
-  @EmbeddedId
-  private DishToMealKey id;
-
-  @ManyToOne
-  @MapsId("mealId")
-  @JoinColumn(name = "meal_id")
-  private Meal meal;
-
-  @ManyToOne
-  @MapsId("dishId")
-  @JoinColumn(name = "dish_id")
-  private Dish dish;
+//  @EmbeddedId
+//  private DishToMealKey id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  Long id;
 
   @Column
   private int amountOfDish;
@@ -35,4 +28,14 @@ public class DishToMealRelation {
   @Column
   @NonNull
   private AmountType amountType;
+
+  @ManyToOne
+  //@MapsId("mealId")
+  @JoinColumn(name = "meal_id")
+  private Meal meal;
+
+  @ManyToOne
+  //@MapsId("dishId")
+  @JoinColumn(name = "dish_id")
+  private Dish dish;
 }

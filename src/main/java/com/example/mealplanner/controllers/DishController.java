@@ -14,32 +14,6 @@ public class DishController extends AbstractMealPlannerController<Dish> {
     super(service);
     this.service = service;
   }
-//
-//  @GetMapping
-//  public ResponseEntity<List<Dish>> findAll() {
-//    return service.findAll();
-//  }
-//
-//  @PostMapping
-//  public ResponseEntity<Dish> save(@RequestBody Dish newDish) {
-//    return service.save(newDish);
-//  }
-//
-//  @PutMapping
-//  public ResponseEntity<Dish> update(@RequestBody Dish newDish) {
-//    return service.update(newDish);
-//  }
-//
-//  @DeleteMapping
-//  public ResponseEntity<HttpStatus> delete(@RequestParam Long id) {
-//    return service.deleteById(id);
-//  }
-//
-//  @GetMapping("/{id}")
-//  public ResponseEntity<Dish> findById(@PathVariable Long id) {
-//    return service.findById(id);
-//  }
-
   @GetMapping("/names/{name}")
   public ResponseEntity<Dish> findByName(@PathVariable String name) {
     return service.findByName(name);
