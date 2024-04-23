@@ -58,10 +58,10 @@ public class DishServiceImpl implements DishService {
   }
 
   @Override
-  public ResponseEntity<Dish> findByName(String name) {
+  public ResponseEntity<DishDto> findByName(String name) {
     var dish = repository.findByName(name)
         .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "name", name));
-    return new ResponseEntity<>(dish, HttpStatus.FOUND);
+    return new ResponseEntity<>(new DishDto(dish), HttpStatus.FOUND);
   }
 
   @Override

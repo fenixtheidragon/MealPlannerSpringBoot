@@ -34,6 +34,7 @@ public class IngredientServiceImpl implements IngredientService {
 
   @Override
   public ResponseEntity<IngredientDto> save(IngredientDto ingredientDto) {
+    SaveIngredientDtoRequestValidator
     var optionalIngredient = repository.findByName(ingredientDto.getName());
     if (optionalIngredient.isPresent()) {
       throw new ResourceAlreadyExistsException(resourceClassName, "name", ingredientDto.getName());

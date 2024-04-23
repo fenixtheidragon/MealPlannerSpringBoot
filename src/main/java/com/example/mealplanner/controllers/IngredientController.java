@@ -1,5 +1,6 @@
 package com.example.mealplanner.controllers;
 
+import com.example.mealplanner.dto.IngredientDto;
 import com.example.mealplanner.models.basic.Ingredient;
 import com.example.mealplanner.services.IngredientService;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/ingredients")
-public class IngredientController extends MealPlannerController<Ingredient> {
+public class IngredientController extends MealPlannerController<IngredientDto> {
   private final IngredientService service;
   public IngredientController(IngredientService service) {
     super(service);

@@ -7,8 +7,9 @@ public class SaveMealtimeDtoRequestValidator {
   public boolean isValid(MealtimeDto mealtimeDto) {
     var id = mealtimeDto.getId();
     var day = mealtimeDto.getDay();
+    var category = mealtimeDto.getCategory();
     return (id != null) && (id > 0) &&
-        (day != null) && (day.)
-        (mealtimeDto.getCategory() != null);
+        (day != null) &&
+        (category != null);
   }
 }

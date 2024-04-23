@@ -5,5 +5,5 @@ import com.example.mealplanner.models.basic.Dish;
 import org.springframework.http.ResponseEntity;
 
 public interface DishService extends GeneralService<DishDto>{
-    ResponseEntity<Dish> findByName(String name);
+    ResponseEntity<DishDto> findByName(String name);
 }
