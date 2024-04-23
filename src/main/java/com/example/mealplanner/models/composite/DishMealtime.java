@@ -1,9 +1,8 @@
 package com.example.mealplanner.models.composite;
 
 import com.example.mealplanner.helpers.enums.AmountType;
-import com.example.mealplanner.models.composite.keys.DishToMealKey;
 import com.example.mealplanner.models.basic.Dish;
-import com.example.mealplanner.models.basic.Meal;
+import com.example.mealplanner.models.basic.Mealtime;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,30 +11,26 @@ import lombok.NonNull;
 
 @Entity
 @Data
-@Table(name = "dishes_meals")
+@Table(name = "dishes_mealtimes")
 @AllArgsConstructor
 @NoArgsConstructor
-public class DishToMealRelation {
-//  @EmbeddedId
-//  private DishToMealKey id;
+public class DishMealtime {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   Long id;
 
   @Column
-  private int amountOfDish;
+  private int amountOfDish = 0;
 
   @Column
   @NonNull
-  private AmountType amountType;
+  private AmountType amountType = AmountType.GRAMS;
 
-  @ManyToOne
-  //@MapsId("mealId")
-  @JoinColumn(name = "meal_id")
-  private Meal meal;
-
-  @ManyToOne
-  //@MapsId("dishId")
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "dish_id")
   private Dish dish;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "mealtime_id")
+  private Mealtime mealtime;
 }

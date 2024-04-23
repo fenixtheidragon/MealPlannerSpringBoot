@@ -1,9 +1,10 @@
 package com.example.mealplanner.impl;
 
+import com.example.mealplanner.dto.DishDto;
 import com.example.mealplanner.helpers.exceptions.ResourceAlreadyExistsException;
 import com.example.mealplanner.helpers.exceptions.ResourceNotFoundException;
 import com.example.mealplanner.models.basic.Dish;
-import com.example.mealplanner.repositories.DishRepository;
+import com.example.mealplanner.repositories.DishRepo;
 import com.example.mealplanner.services.DishService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,21 +20,27 @@ import java.util.List;
 @Primary
 public class DishServiceImpl implements DishService {
   private final static String resourceClassName = Dish.class.getName();
-  private final DishRepository repository;
+  private final DishRepo repository;
 
   @Override
-  public ResponseEntity<List<Dish>> findAll() {
-    var dishList = repository.findAll();
-    return new ResponseEntity<>(dishList, HttpStatus.OK);
+  public ResponseEntity<List<DishDto>> findAll() {
+    List<DishDto> dishDtoList = new ArrayList<>();
+    repository.findAll().forEach(dish -> {
+      var dishDto = new DishDto(dish);
+      dishDtoList.add(dishDto);
+    });
+    return ResponseEntity.ok(dishDtoList);
   }
 
   @Override
-  public ResponseEntity<Dish> save(Dish dish) {
-    var optionalDish = repository.findByName(dish.getName());
+  public ResponseEntity<DishDto> save(DishDto dishDto) {
+    var optionalDish = repository.findByName(dishDto.getName());
     if (optionalDish.isPresent()) {
-      throw new ResourceAlreadyExistsException(resourceClassName, "name", dish.getName());
+      throw new ResourceAlreadyExistsException(resourceClassName, "name", dishDto.getName());
     }
-    return new ResponseEntity<>(repository.save(dish), HttpStatus.OK);
+    var dish = new Dish(dishDto);
+    repository.save(dish);
+    return new ResponseEntity<>(, HttpStatus.OK);
   }
 
   @Override

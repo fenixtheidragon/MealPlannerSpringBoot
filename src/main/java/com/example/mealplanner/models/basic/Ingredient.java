@@ -1,7 +1,8 @@
 package com.example.mealplanner.models.basic;
 
+import com.example.mealplanner.dto.IngredientDto;
 import com.example.mealplanner.helpers.enums.AmountType;
-import com.example.mealplanner.models.composite.DishToIngredientRelation;
+import com.example.mealplanner.models.composite.DishIngredient;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,16 +36,21 @@ public class Ingredient {
   @NonNull
   private AmountType amountType = AmountType.GRAMS;
 
-
-  @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnore
-  private Set<DishToIngredientRelation> dishToIngredientRelations = new HashSet<>();
+  @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Set<DishIngredient> dishToIngredientRelations = new HashSet<>();
 
+  public Ingredient(IngredientDto ingredientDto) {
+    this.id = ingredientDto.getId();
+    this.name = ingredientDto.getName();
+    this.availableAmount = ingredientDto.getAmount();
+    this.amountType = ingredientDto.getAmountType();
+  }
   public boolean isAvailable() {
     return availableAmount > 0;
   }
 
-  public void addDishToIngredientRelation(DishToIngredientRelation relation) {
+  public void addDishToIngredientRelation(DishIngredient relation) {
     this.dishToIngredientRelations.add(relation);
   }
 }

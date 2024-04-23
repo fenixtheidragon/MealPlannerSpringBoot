@@ -25,6 +25,6 @@ public class MealCategoryConverter implements AttributeConverter<MealCategory, S
     return Stream.of(MealCategory.values())
         .filter(mealCategory -> mealCategory.getName().equals(name))
         .findFirst()
-        .orElseThrow(IllegalArgumentException::new);
+        .orElseThrow(()-> new IllegalArgumentException("MealCategory object with name = '" + name + "' doesn't exist."));
   }
 }

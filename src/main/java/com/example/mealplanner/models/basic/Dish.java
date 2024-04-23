@@ -1,8 +1,9 @@
 package com.example.mealplanner.models.basic;
 
+import com.example.mealplanner.dto.DishDto;
 import com.example.mealplanner.helpers.enums.AmountType;
-import com.example.mealplanner.models.composite.DishToIngredientRelation;
-import com.example.mealplanner.models.composite.DishToMealRelation;
+import com.example.mealplanner.models.composite.DishIngredient;
+import com.example.mealplanner.models.composite.DishMealtime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,7 +31,7 @@ public class Dish {
   private String name = "";
 
   @Column(columnDefinition = "TEXT")
-  private String recipe = "";
+  private String recipeDescription = "";
 
   @Column
   private int availableAmount = 0;
@@ -38,19 +39,27 @@ public class Dish {
   @Column
   private AmountType amountType = AmountType.GRAMS;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "dish" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JsonIgnore
-  private Set<DishToIngredientRelation> dishToIngredientRelations = new HashSet<>();
+  private Set<DishIngredient> dishToIngredientRelations = new HashSet<>();
 
-  @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JsonIgnore
-  private Set<DishToMealRelation> dishToMealRelations = new HashSet<>();
+  @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Set<DishMealtime> dishToMealRelations = new HashSet<>();
+
+  public Dish(DishDto dishDto) {
+    this.id = dishDto.getId();
+    this.name = dishDto.getName();
+    this.recipeDescription = dishDto.getRecipeDescription();
+    this.availableAmount = dishDto.getAvailableAmount();
+    this.amountType = dishDto.getAmountType();
+  }
 
   public boolean isAvailable() {
     return availableAmount > 0;
   }
 
-  public void addDishToIngredientRelation(DishToIngredientRelation relation) {
+  public void addDishToIngredientRelation(DishIngredient relation) {
     this.dishToIngredientRelations.add(relation);
   }
 }

@@ -1,7 +1,6 @@
 package com.example.mealplanner.models.composite;
 
 import com.example.mealplanner.helpers.enums.AmountType;
-import com.example.mealplanner.models.composite.keys.DishToIngredientKey;
 import com.example.mealplanner.models.basic.Dish;
 import com.example.mealplanner.models.basic.Ingredient;
 import jakarta.persistence.*;
@@ -15,9 +14,7 @@ import lombok.NonNull;
 @Table(name="dishes_ingredients")
 @AllArgsConstructor
 @NoArgsConstructor
-public class DishToIngredientRelation {
-  /*@EmbeddedId
-  DishToIngredientKey id;*/
+public class DishIngredient {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,20 +22,17 @@ public class DishToIngredientRelation {
   private Long id;
 
   @Column
-  int amountOfIngredient;
+  int amountOfIngredient = 0;
 
   @Column
   @NonNull
-  private AmountType amountType;
+  private AmountType amountType = AmountType.GRAMS;
 
-  @ManyToOne
-  //TODO определить fetch.type для many-to-one
-  //@MapsId("dishId")
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "dish_id")
   private Dish dish;
 
-  @ManyToOne
-  //@MapsId("ingredientId")
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name="ingredient_id")
   private Ingredient ingredient;
 }

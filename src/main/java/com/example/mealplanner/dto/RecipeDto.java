@@ -8,7 +8,7 @@ import java.util.List;
 public class RecipeDto {
   private Long dishId;
   private String dishName;
-  private List<IngredientForRecipeDto> ingredientForRecipeDtoList;
+  private List<IngredientDto> ingredientDtoList;
 
 
 }

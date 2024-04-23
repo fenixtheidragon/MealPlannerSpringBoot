@@ -1,6 +1,5 @@
 package com.example.mealplanner.services;
 
-import com.example.mealplanner.models.basic.Ingredient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

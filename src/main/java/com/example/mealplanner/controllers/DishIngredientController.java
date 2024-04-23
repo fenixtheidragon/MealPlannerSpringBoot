@@ -1,9 +1,9 @@
 package com.example.mealplanner.controllers;
 
-import com.example.mealplanner.dto.IngredientForRecipeDto;
+import com.example.mealplanner.dto.IngredientDto;
 import com.example.mealplanner.dto.RecipeDto;
-import com.example.mealplanner.models.composite.DishToIngredientRelation;
-import com.example.mealplanner.services.DishToIngredientRelationService;
+import com.example.mealplanner.models.composite.DishIngredient;
+import com.example.mealplanner.services.DishIngredientService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("api/dishes")
 @AllArgsConstructor
-public class DishToIngredientRelationController {
+public class DishIngredientController {
 
-  private final DishToIngredientRelationService dToIRelService;
+  private final DishIngredientService dToIRelService;
 
   @GetMapping("/{dishId}/recipe")
   public ResponseEntity<RecipeDto> findDishRecipe(@PathVariable Long dishId) {
@@ -24,8 +24,8 @@ public class DishToIngredientRelationController {
   }
 
   @PostMapping("/{dishId}/recipe")
-  public ResponseEntity<List<DishToIngredientRelation>> saveDishRecipe(
-      @RequestBody List<IngredientForRecipeDto> ingredientList, @PathVariable Long dishId
+  public ResponseEntity<List<DishIngredient>> saveDishRecipe(
+      @RequestBody List<IngredientDto> ingredientList, @PathVariable Long dishId
   ) {
       return dToIRelService.saveIngredientToDishRelations(ingredientList, dishId);
   }

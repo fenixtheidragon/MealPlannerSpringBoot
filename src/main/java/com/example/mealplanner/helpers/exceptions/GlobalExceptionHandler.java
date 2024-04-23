@@ -26,4 +26,12 @@ public class GlobalExceptionHandler {
         new MealPlannerException(HttpStatus.CONFLICT.value(), e.getMessage()), HttpStatus.CONFLICT
     );
   }
+
+  @ExceptionHandler
+  public ResponseEntity<MealPlannerException> catchIllegalArgumentException(IllegalArgumentException e) {
+    log.error(e.getMessage(), e);
+    return new ResponseEntity<>(
+        new MealPlannerException(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST
+    );
+  }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/dishes")
-public class DishController extends AbstractMealPlannerController<Dish> {
+public class DishController extends MealPlannerController<Dish> {
   private final DishService service;
   public DishController(DishService service) {
     super(service);

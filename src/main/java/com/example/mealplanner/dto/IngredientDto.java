@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class IngredientDto {
-  private Long ingredientId;
-  private String ingredientName;
-  private int amountOfIngredient;
+  private Long id;
+  private String name;
+  private Integer amount;
   private AmountType amountType;
 
   public IngredientDto(Ingredient ingredient) {
-    this.ingredientId = ingredient.getId();
-    this.ingredientName = ingredient.getName();
-    this.amountOfIngredient = ingredient.getAvailableAmount();
+    this.id = ingredient.getId();
+    this.name = ingredient.getName();
+    this.amount = ingredient.getAvailableAmount();
     this.amountType = ingredient.getAmountType();
   }
 }

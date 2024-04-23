@@ -1,15 +1,15 @@
 package com.example.mealplanner.impl;
 
-import com.example.mealplanner.dto.IngredientForRecipeDto;
+import com.example.mealplanner.dto.IngredientDto;
 import com.example.mealplanner.dto.RecipeDto;
 import com.example.mealplanner.helpers.exceptions.ResourceNotFoundException;
 import com.example.mealplanner.models.basic.Dish;
 import com.example.mealplanner.models.basic.Ingredient;
-import com.example.mealplanner.models.composite.DishToIngredientRelation;
-import com.example.mealplanner.repositories.DishRepository;
-import com.example.mealplanner.repositories.DishToIngredientRelationRepository;
-import com.example.mealplanner.repositories.IngredientRepository;
-import com.example.mealplanner.services.DishToIngredientRelationService;
+import com.example.mealplanner.models.composite.DishIngredient;
+import com.example.mealplanner.repositories.DishRepo;
+import com.example.mealplanner.repositories.DishIngredientRepo;
+import com.example.mealplanner.repositories.IngredientRepo;
+import com.example.mealplanner.services.DishIngredientService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
@@ -22,11 +22,11 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Primary
-public class DishToIngredientRelationServiceImpl implements DishToIngredientRelationService {
+public class DishIngredientServiceImpl implements DishIngredientService {
 
-  private final IngredientRepository ingredientRepository;
-  private final DishRepository dishRepository;
-  private final DishToIngredientRelationRepository dToIRelationRepository;
+  private final IngredientRepo ingredientRepository;
+  private final DishRepo dishRepository;
+  private final DishIngredientRepo dToIRelationRepository;
 
   @Override
   public ResponseEntity<RecipeDto> getRecipeDtoByDishId(Long dishId) {
@@ -36,22 +36,22 @@ public class DishToIngredientRelationServiceImpl implements DishToIngredientRela
   }
 
   @Override
-  public ResponseEntity<List<DishToIngredientRelation>> saveIngredientToDishRelations(
-      List<IngredientForRecipeDto> ingredientForRecipeDtoList, Long dishId
+  public ResponseEntity<List<DishIngredient>> saveIngredientToDishRelations(
+      List<IngredientDto> ingredientForRecipeDtoList, Long dishId
   ) {
     var dish = validateAndReturnDish(dishId);
-    var relationList = new ArrayList<DishToIngredientRelation>();
+    var relationList = new ArrayList<DishIngredient>();
     ingredientForRecipeDtoList.forEach(ingredientDTO -> {
-      var relation = new DishToIngredientRelation();
+      var relation = new DishIngredient();
       relation.setDish(dish);
-      var ingredient = ingredientRepository.findById(ingredientDTO.getIngredientId())
+      var ingredient = ingredientRepository.findById(ingredientDTO.getId())
           .orElseThrow(() ->
               new ResourceNotFoundException(
-                  Ingredient.class.getName(), "id", String.valueOf(ingredientDTO.getIngredientId())
+                  Ingredient.class.getName(), "id", String.valueOf(ingredientDTO.getId())
               )
           );
       relation.setIngredient(ingredient);
-      relation.setAmountOfIngredient(ingredientDTO.getAmountOfIngredient());
+      relation.setAmountOfIngredient(ingredientDTO.getAmount());
       relation.setAmountType(ingredientDTO.getAmountType());
       dToIRelationRepository.save(relation);
       relationList.add(relation);
@@ -70,12 +70,14 @@ public class DishToIngredientRelationServiceImpl implements DishToIngredientRela
   }
 
   @Override
-  public ResponseEntity<List<DishToIngredientRelation>> findAll() {
-    return new ResponseEntity<>(dToIRelationRepository.findAll(), HttpStatus.OK);
+  public ResponseEntity<List<DishIngredient>> findAll() {
+    var dishIngredient
+    dToIRelationRepository.findAll().stream()
+    return new ResponseEntity<>(, HttpStatus.OK);
   }
 
   @Override
-  public ResponseEntity<DishToIngredientRelation> save(DishToIngredientRelation relation) {
+  public ResponseEntity<DishIngredient> save(DishIngredient relation) {
     /*dToIRelationRepository.findById(
         relation.getId().getDishId(), relation.getId().getIngredientId()
     ).orElseThrow(() ->
@@ -87,7 +89,7 @@ public class DishToIngredientRelationServiceImpl implements DishToIngredientRela
   }
 
   @Override
-  public ResponseEntity<DishToIngredientRelation> update(DishToIngredientRelation relation) {
+  public ResponseEntity<DishIngredient> update(DishIngredient relation) {
     return null;
   }
 
@@ -97,10 +99,10 @@ public class DishToIngredientRelationServiceImpl implements DishToIngredientRela
   }
 
   @Override
-  public ResponseEntity<DishToIngredientRelation> findById(Long id) {
+  public ResponseEntity<DishIngredient> findById(Long id) {
     var relation = dToIRelationRepository.findById(id)
         .orElseThrow(() ->
-            new ResourceNotFoundException(DishToIngredientRelation.class.getName(), "id", String.valueOf(id))
+            new ResourceNotFoundException(DishIngredient.class.getName(), "id", String.valueOf(id))
         );
     return new ResponseEntity<>(relation, HttpStatus.FOUND);
   }
@@ -117,18 +119,18 @@ public class DishToIngredientRelationServiceImpl implements DishToIngredientRela
     var recipeDto = new RecipeDto();
     recipeDto.setDishId(dish.getId());
     recipeDto.setDishName(dish.getName());
-    recipeDto.setIngredientForRecipeDtoList(ingredientForRecipeDtoList);
+    recipeDto.setIngredientDtoList(ingredientForRecipeDtoList);
     return recipeDto;
   }
 
-  private List<IngredientForRecipeDto> getIngredientForRecipeDtoList(Dish dish) {
-    var ingredientForRecipeDtoList = new ArrayList<IngredientForRecipeDto>();
+  private List<IngredientDto> getIngredientForRecipeDtoList(Dish dish) {
+    var ingredientForRecipeDtoList = new ArrayList<IngredientDto>();
     dish.getDishToIngredientRelations().forEach(relation -> {
-          var ingredientForRecipeDto = new IngredientForRecipeDto();
+          var ingredientForRecipeDto = new IngredientDto();
           var ingredient = relation.getIngredient();
-          ingredientForRecipeDto.setIngredientId(ingredient.getId());
-          ingredientForRecipeDto.setIngredientName(ingredient.getName());
-          ingredientForRecipeDto.setAmountOfIngredient(relation.getAmountOfIngredient());
+          ingredientForRecipeDto.setId(ingredient.getId());
+          ingredientForRecipeDto.setName(ingredient.getName());
+          ingredientForRecipeDto.setAmount(relation.getAmountOfIngredient());
           ingredientForRecipeDto.setAmountType(relation.getAmountType());
           ingredientForRecipeDtoList.add(ingredientForRecipeDto);
         }
