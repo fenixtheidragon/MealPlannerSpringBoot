@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface IngredientRepo extends JpaRepository<Ingredient, Long> {
+public interface IngredientRepo extends GeneralRepo<Ingredient> {
   Optional<Ingredient> findByName(String name);
 }

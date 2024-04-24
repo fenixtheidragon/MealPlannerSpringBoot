@@ -5,5 +5,5 @@ import com.example.mealplanner.models.basic.Ingredient;
 import org.springframework.http.ResponseEntity;
 
 public interface IngredientService extends GeneralService<IngredientDto>{
-  ResponseEntity<Ingredient> findByName(String name);
+  ResponseEntity<IngredientDto> findByName(String name);
 }

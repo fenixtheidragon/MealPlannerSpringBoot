@@ -16,7 +16,7 @@ public class IngredientController extends MealPlannerController<IngredientDto> {
     this.service = service;
   }
   @GetMapping("/names/{name}")
-  public ResponseEntity<Ingredient> findByName(@PathVariable String name) {
+  public ResponseEntity<IngredientDto> findByName(@PathVariable String name) {
     return service.findByName(name);
   }
 }
