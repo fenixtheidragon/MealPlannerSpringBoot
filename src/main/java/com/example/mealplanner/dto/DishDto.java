@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DishDto {
   private Long id;
-  private String name;
-  private String recipeDescription;
-  private Integer availableAmount;
-  private AmountType amountType;
+  private String name = "";
+  private String recipeDescription = "";
+  private Integer availableAmount = 0;
+  private AmountType amountType = AmountType.GRAMS;
 
   public DishDto(Dish dish) {
     this.id = dish.getId();

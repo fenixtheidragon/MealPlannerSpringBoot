@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public class MealPlannerController<T> {
+public class GeneralController<T> {
 
   private final GeneralService<T> service;
 
-  public MealPlannerController(GeneralService<T> service) {
+  public GeneralController(GeneralService<T> service) {
     this.service = service;
   }
   @GetMapping

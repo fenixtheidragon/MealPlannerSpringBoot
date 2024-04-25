@@ -1,8 +1,8 @@
 package com.example.mealplanner.impl;
 
 import com.example.mealplanner.dto.DishDto;
-import com.example.mealplanner.helpers.exceptions.ResourceAlreadyExistsException;
 import com.example.mealplanner.helpers.exceptions.ResourceNotFoundException;
+import com.example.mealplanner.helpers.validators.DishDtoRequestValidator;
 import com.example.mealplanner.models.basic.Dish;
 import com.example.mealplanner.repositories.DishRepo;
 import com.example.mealplanner.services.DishService;
@@ -21,6 +21,7 @@ import java.util.List;
 public class DishServiceImpl implements DishService {
   private final static String resourceClassName = Dish.class.getName();
   private final DishRepo repository;
+  private final DishDtoRequestValidator validator;
 
   @Override
   public ResponseEntity<List<DishDto>> findAll() {
@@ -34,25 +35,25 @@ public class DishServiceImpl implements DishService {
 
   @Override
   public ResponseEntity<DishDto> save(DishDto dishDto) {
-    var optionalDish = repository.findByName(dishDto.getName());
-    if (optionalDish.isPresent()) {
-      throw new ResourceAlreadyExistsException(resourceClassName, "name", dishDto.getName());
-    }
+    validator.validateSaveRequest(dishDto);
     var dish = new Dish(dishDto);
     repository.save(dish);
-    return new ResponseEntity<>(, HttpStatus.OK);
+    dishDto = new DishDto(dish);
+    return ResponseEntity.ok(dishDto);
   }
 
   @Override
-  public ResponseEntity<Dish> update(Dish dish) {
-    validateUpdateRequest(dish);
-    return new ResponseEntity<>(repository.save(dish), HttpStatus.OK);
+  public ResponseEntity<DishDto> update(DishDto dishDto) {
+    validator.validateUpdateRequest(dishDto);
+    var dish = new Dish(dishDto);
+    repository.save(dish);
+    dishDto = new DishDto(dish);
+    return ResponseEntity.ok(dishDto);
   }
 
   @Override
   public ResponseEntity<HttpStatus> deleteById(Long id) {
-    repository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "id", String.valueOf(id)));
+    validator.validateDeleteRequest(id);
     repository.deleteById(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
@@ -65,20 +66,9 @@ public class DishServiceImpl implements DishService {
   }
 
   @Override
-  public ResponseEntity<Dish> findById(Long id) {
+  public ResponseEntity<DishDto> findById(Long id) {
     var dish = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "id", String.valueOf(id)));
-    return new ResponseEntity<>(dish, HttpStatus.FOUND);
-  }
-
-  private void validateUpdateRequest(Dish dish) {
-    repository.findById(dish.getId())
-        .orElseThrow(() ->
-            new ResourceNotFoundException(resourceClassName, "id", String.valueOf(dish.getId()))
-        );
-    var optionalDish = repository.findByName(dish.getName());
-    if (optionalDish.isPresent() && !optionalDish.get().getId().equals(dish.getId())) {
-      throw new ResourceAlreadyExistsException(resourceClassName, "name", dish.getName());
-    }
+    return new ResponseEntity<>(new DishDto(dish), HttpStatus.FOUND);
   }
 }

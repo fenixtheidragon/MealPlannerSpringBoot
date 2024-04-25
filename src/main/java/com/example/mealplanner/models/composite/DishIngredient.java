@@ -1,5 +1,6 @@
 package com.example.mealplanner.models.composite;
 
+import com.example.mealplanner.dto.DishIngredientDto;
 import com.example.mealplanner.helpers.enums.AmountType;
 import com.example.mealplanner.models.basic.Dish;
 import com.example.mealplanner.models.basic.Ingredient;
@@ -22,7 +23,7 @@ public class DishIngredient {
   private Long id;
 
   @Column
-  int amountOfIngredient = 0;
+  int ingredientAmount = 0;
 
   @Column
   @NonNull
@@ -35,4 +36,12 @@ public class DishIngredient {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name="ingredient_id")
   private Ingredient ingredient;
+
+  public DishIngredient(DishIngredientDto dishIngredientDto, Dish dish, Ingredient ingredient) {
+    this.id = dishIngredientDto.getId();
+    this.ingredientAmount = dishIngredientDto.getIngredientAmount();
+    this.amountType = dishIngredientDto.getAmountType();
+    this.dish = dish;
+    this.ingredient = ingredient;
+  }
 }

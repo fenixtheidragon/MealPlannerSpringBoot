@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface DishRepo extends GeneralRepo<Dish> {
+public interface DishRepo extends JpaRepository<Dish,Long> {
   Optional<Dish> findByName(String name);
 }

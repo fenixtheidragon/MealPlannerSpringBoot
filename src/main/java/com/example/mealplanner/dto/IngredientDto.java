@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class IngredientDto {
   private Long id;
-  private String name;
-  private Integer amount;
-  private AmountType amountType;
+  private String name ="";
+  private Integer amount = 0;
+  private AmountType amountType = AmountType.GRAMS;
 
   public IngredientDto(Ingredient ingredient) {
     this.id = ingredient.getId();

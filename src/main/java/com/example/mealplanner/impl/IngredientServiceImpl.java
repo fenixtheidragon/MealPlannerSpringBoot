@@ -1,7 +1,6 @@
 package com.example.mealplanner.impl;
 
 import com.example.mealplanner.dto.IngredientDto;
-import com.example.mealplanner.helpers.exceptions.ResourceAlreadyExistsException;
 import com.example.mealplanner.helpers.exceptions.ResourceNotFoundException;
 import com.example.mealplanner.helpers.validators.IngredientDtoRequestValidator;
 import com.example.mealplanner.models.basic.Ingredient;
@@ -21,7 +20,7 @@ import java.util.List;
 @Primary
 public class IngredientServiceImpl implements IngredientService {
   private final IngredientRepo repository;
-  private final IngredientDtoRequestValidator ingredientDtoRequestValidator;
+  private final IngredientDtoRequestValidator validator;
   private final static String resourceClassName = Ingredient.class.getName();
 
   @Override
@@ -36,23 +35,25 @@ public class IngredientServiceImpl implements IngredientService {
 
   @Override
   public ResponseEntity<IngredientDto> save(IngredientDto ingredientDto) {
-    ingredientDtoRequestValidator.validateSaveRequest(ingredientDto);
+    validator.validateSaveRequest(ingredientDto);
     var ingredient = new Ingredient(ingredientDto);
     repository.save(ingredient);
+    ingredientDto = new IngredientDto(ingredient);
     return ResponseEntity.ok(ingredientDto);
   }
 
   @Override
   public ResponseEntity<IngredientDto> update(IngredientDto ingredientDto) {
-    ingredientDtoRequestValidator.validateUpdateRequest(ingredientDto);
+    validator.validateUpdateRequest(ingredientDto);
     var ingredient = new Ingredient(ingredientDto);
     repository.save(ingredient);
+    ingredientDto = new IngredientDto(ingredient);
     return ResponseEntity.ok(ingredientDto);
   }
 
   @Override
   public ResponseEntity<HttpStatus> deleteById(Long id) {
-    ingredientDtoRequestValidator.validateDeleteRequest(id);
+    validator.validateDeleteRequest(id);
     repository.deleteById(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }

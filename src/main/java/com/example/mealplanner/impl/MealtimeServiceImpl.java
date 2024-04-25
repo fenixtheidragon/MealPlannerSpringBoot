@@ -1,8 +1,8 @@
 package com.example.mealplanner.impl;
 
 import com.example.mealplanner.dto.MealtimeDto;
-import com.example.mealplanner.helpers.exceptions.ResourceAlreadyExistsException;
 import com.example.mealplanner.helpers.exceptions.ResourceNotFoundException;
+import com.example.mealplanner.helpers.validators.MealtimeDtoRequestValidator;
 import com.example.mealplanner.models.basic.Mealtime;
 import com.example.mealplanner.repositories.MealtimeRepo;
 import com.example.mealplanner.services.MealtimeService;
@@ -20,7 +20,7 @@ import java.util.List;
 @Primary
 public class MealtimeServiceImpl implements MealtimeService {
   private final MealtimeRepo repository;
-  private final static String resourceClassName = Mealtime.class.getSimpleName();
+  private final MealtimeDtoRequestValidator validator;
 
   @Override
   public ResponseEntity<List<MealtimeDto>> findAll() {
@@ -34,33 +34,29 @@ public class MealtimeServiceImpl implements MealtimeService {
 
   @Override
   public ResponseEntity<MealtimeDto> save(MealtimeDto mealtimeDto) {
-    var optionalMeal = repository.findById(mealtimeDto.getId());
-    if (optionalMeal.isPresent()) {
-      throw new ResourceAlreadyExistsException(resourceClassName, "id", String.valueOf(mealtimeDto.getId()));
-    }
-    var mealtime = new Mealtime(mealtimeDto);
-    repository.save(mealtime);
+    validator.validateSaveRequest(mealtimeDto);
+    repository.save(new Mealtime(mealtimeDto));
     return new ResponseEntity<>(mealtimeDto, HttpStatus.OK);
   }
 
   @Override
-  public ResponseEntity<MealtimeDto> update(MealtimeDto newMealtimeDto) {
-
-    return new ResponseEntity<>(repository.save(newMealtime), HttpStatus.OK);
+  public ResponseEntity<MealtimeDto> update(MealtimeDto mealtimeDto) {
+    validator.validateUpdateRequest(mealtimeDto);
+    repository.save(new Mealtime(mealtimeDto));
+    return new ResponseEntity<>(mealtimeDto, HttpStatus.OK);
   }
 
   @Override
   public ResponseEntity<HttpStatus> deleteById(Long id) {
-    repository.findById(id)
-        .orElseThrow(() -> new ResourceNotFoundException(Mealtime.class.getName(), "id", String.valueOf(id)));
+    validator.validateDeleteRequest(id);
     repository.deleteById(id);
     return new ResponseEntity<>(HttpStatus.OK);
   }
 
   @Override
-  public ResponseEntity<Mealtime> findById(Long id) {
-    var meal = repository.findById(id)
+  public ResponseEntity<MealtimeDto> findById(Long id) {
+    var mealtime = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException(Mealtime.class.getName(), "id", String.valueOf(id)));
-    return new ResponseEntity<>(meal, HttpStatus.FOUND);
+    return new ResponseEntity<>(new MealtimeDto(mealtime), HttpStatus.FOUND);
   }
 }
