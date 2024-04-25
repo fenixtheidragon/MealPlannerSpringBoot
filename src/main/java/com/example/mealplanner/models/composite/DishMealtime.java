@@ -20,7 +20,7 @@ public class DishMealtime {
   Long id;
 
   @Column
-  private int amountOfDish = 0;
+  private int dishAmount = 0;
 
   @Column
   @NonNull
