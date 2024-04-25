@@ -2,10 +2,9 @@ package com.example.mealplanner.impl;
 
 import com.example.mealplanner.dto.*;
 import com.example.mealplanner.helpers.exceptions.ResourceNotFoundException;
+import com.example.mealplanner.helpers.validators.DishMealtimeDtoRequestValidator;
 import com.example.mealplanner.models.basic.Dish;
-import com.example.mealplanner.models.basic.Ingredient;
 import com.example.mealplanner.models.basic.Mealtime;
-import com.example.mealplanner.models.composite.DishIngredient;
 import com.example.mealplanner.models.composite.DishMealtime;
 import com.example.mealplanner.repositories.*;
 import com.example.mealplanner.services.DishMealtimeService;
@@ -44,9 +43,9 @@ public class DishMealtimeServiceImpl implements DishMealtimeService {
   }
 
   @Override
-  public ResponseEntity<DishIngredientDto> update(DishIngredientDto dishIngredientDto) {
-    validator.validateUpdateRequest(dishIngredientDto);
-    var dish = getDishFrom(dishIngredientDto);
+  public ResponseEntity<DishMealtimeDto> update(DishMealtimeDto dishMealtimeDto) {
+    validator.validateUpdateRequest(dishMealtimeDto);
+    var dish = getDishFrom(dishMealtimeDto);
     var mealtime = getMealtimeFrom(dishMealtimeDto);
     dishMealtimeRepository.save(new DishMealtime(dishMealtimeDto, dish, mealtime));
     return ResponseEntity.ok(dishMealtimeDto);

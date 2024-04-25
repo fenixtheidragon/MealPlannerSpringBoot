@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
-@RequestMapping("/api/dishes")
+@RequestMapping("/api/mealtimes")
 public class MealtimeController extends GeneralController<MealtimeDto> {
   private final MealtimeService mealtimeService;
   private final DishMealtimeService dishMealtimeService;

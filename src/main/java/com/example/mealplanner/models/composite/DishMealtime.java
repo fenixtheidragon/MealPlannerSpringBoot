@@ -1,5 +1,6 @@
 package com.example.mealplanner.models.composite;
 
+import com.example.mealplanner.dto.DishMealtimeDto;
 import com.example.mealplanner.helpers.enums.AmountType;
 import com.example.mealplanner.models.basic.Dish;
 import com.example.mealplanner.models.basic.Mealtime;
@@ -33,4 +34,12 @@ public class DishMealtime {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "mealtime_id")
   private Mealtime mealtime;
+
+  public DishMealtime(DishMealtimeDto dishMealtimeDto, Dish dish, Mealtime mealtime) {
+    this.id = dishMealtimeDto.getId();
+    this.dishAmount = dishMealtimeDto.getDishAmount();
+    this.amountType = dishMealtimeDto.getAmountType();
+    this.dish = dish;
+    this.mealtime = mealtime;
+  }
 }
