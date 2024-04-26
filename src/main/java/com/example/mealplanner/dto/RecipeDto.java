@@ -11,8 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class RecipeDto {
   private Long dishId;
-  private String dishName;
-  private List<IngredientDto> ingredientDtoList;
+  private String dishName = "";
+  private List<IngredientDto> ingredientDtoList = new ArrayList<>();
 
   public RecipeDto(Dish dish) {
     this.dishId = dish.getId();

@@ -1,0 +1,62 @@
+/api/meals
+
+example of body (full MealtimeDto):
+{
+    "day": "MONDAY",
+    "category": "BREAKFAST"
+}
+category possible values:
+UNCATEGORIZED,
+BREAKFAST,
+SECOND_BREAKFAST,
+LUNCH,
+TEA,
+DINNER,
+SUPPER,
+SNACK;
+
+1)GET - возвращает список запланированных приёмов пищи в виде List
+Requests nothing
+Returns body (ResponseEntity<List<MealtimeDto>>) and HTTPStatus(OK)
+
+2)POST - сохраняет один приём пищи и возвращает сохраненный
+Requests body (Meal)
+Returns body (ResponseEntity<Mealtime>) and HTTPStatus(CONFLICT/OK)
+
+3)PUT - обновляет информацию по одному приёму пищи и возвращает сохраненный
+Requests body (Mealtime)
+Returns body (ResponseEntity<Mealtime>) and HTTPStatus(NOT_FOUND/CONFLICT/OK)
+
+4)DELETE - удаляет один приём пищи по id
+Requests param (Long id) (example: /mealtimes?id=1)
+Returns HTTPStatus(NOT_FOUND/OK)
+
+/api/mealtimes/{id}
+
+GET - находит один приём пищи по id
+Requests PathVariable (Long id) (example: /meals/1)
+Returns body (ResponseEntity<Mealtime>) and HTTPStatus(NOT_FOUND/FOUND)
+
+/api/mealtimes/{id}/mealcourse
+
+пример mealcourse:
+{
+    "mealtimeId": 1,
+    "dishDtoList": [
+        {
+            "id": 1,
+            "name": "apple and banana",
+            "recipeDescription": "applebanana!!!",
+            "amount": 400,
+            "amountType": "GRAMS"
+        }
+    ]
+}
+
+GET - возвращает меню конкретного приёма пищи
+Requests PathVariable (Long id)
+Returns body (ResponseEntity<MealCourseDto>) and HTTPStatus(NOT_FOUND/FOUND)
+
+POST - сохраняет рецепт конкретного блюда
+Requests PathVariable (Long id) и Body (MealCourseDto)
+Returns body (ResponseEntity<MealCourseDto>) and HTTPStatus(NOT_FOUND/FOUND)

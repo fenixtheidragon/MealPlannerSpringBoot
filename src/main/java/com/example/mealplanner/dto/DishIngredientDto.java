@@ -11,8 +11,8 @@ public class DishIngredientDto {
   private Long id;
   private Long dishId;
   private Long ingredientId;
-  private Integer ingredientAmount;
-  private AmountType amountType;
+  private Integer ingredientAmount = 0;
+  private AmountType amountType = AmountType.GRAMS;
 
   public DishIngredientDto(DishIngredient dishIngredient) {
     this.id = dishIngredient.getId();

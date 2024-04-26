@@ -1,9 +1,9 @@
 /api/dishes
 
-example of body (full Dish):
+example of body (full DishDto):
 {
     "name": "Single apple",
-    "recipe": "It is a single apple."
+    "recipeDescription": "It is a single apple."
     "amountType": "PIECES",
     "availableAmount": 1
 }
@@ -11,15 +11,15 @@ amountType possible values: grams, kilograms, pieces, litres
 
 1)GET - возвращает список блюд в виде List
 Requests nothing
-Returns body (ResponseEntity<List<Dish>>) and HTTPStatus(OK)
+Returns body (ResponseEntity<List<DishDto>>) and HTTPStatus(OK)
 
 2)POST - сохраняет одно блюдо и возвращает сохранённое
-Requests body (Dish)
-Returns body (ResponseEntity<Dish>) and HTTPStatus(CONFLICT/OK)
+Requests body (DishDto)
+Returns body (ResponseEntity<DishDto>) and HTTPStatus(CONFLICT/OK)
 
 3)PUT - обновляет информацию по одному блюду и возвращает сохраненное
-Requests body (Dish)
-Returns body (ResponseEntity<Dish>) and HTTPStatus(NOT_FOUND/CONFLICT/OK)
+Requests body (DishDto)
+Returns body (ResponseEntity<DishDto>) and HTTPStatus(NOT_FOUND/CONFLICT/OK)
 
 4)DELETE - удаляет одно блюдо по id
 Requests param (Long id) (example: /dishes?id=1)
@@ -29,10 +29,43 @@ Returns HTTPStatus(NOT_FOUND/OK)
 
 GET - находит одно блюдо по id
 Requests PathVariable (Long id) (example: /dishes/1)
-Returns body (ResponseEntity<Dish>) and HTTPStatus(NOT_FOUND/FOUND)
+Returns body (ResponseEntity<DishDto>) and HTTPStatus(NOT_FOUND/FOUND)
 
 /api/dishes/names/{name}
 
 GET - находит одно блюдо по имени
 Request PathVariable (String name) (example: /dishes/Single apple)
-Returns body (ResponseEntity<Dish>) and HTTPStatus(NOT_FOUND/FOUND)
+Returns body (ResponseEntity<DishDto>) and HTTPStatus(NOT_FOUND/FOUND)
+
+/api/dishes/{id}/recipe
+
+пример рецепта(RecipeDto):
+{
+    "dishId": 1,
+    "dishName": "apple and banana",
+    "ingredientDtoList": [
+        {
+            "id": 1,
+            "name": "apple",
+            "amount": 1,
+            "amountType": "GRAMS"
+        },
+        {
+            "id": 2,
+            "name": "banana",
+            "amount": 1,
+            "amountType": "GRAMS"
+        }
+    ]
+}
+
+
+GET - возвращает рецепт конкретного блюда
+Requests PathVariable (Long id)
+Returns body (ResponseEntity<RecipeDto>) and HTTPStatus(NOT_FOUND/FOUND)
+
+POST - сохраняет рецепт конкретного блюда
+Requests PathVariable (Long id) и Body (RecipeDto)
+Returns body (ResponseEntity<RecipeDto>) and HTTPStatus(NOT_FOUND/FOUND)
+
+

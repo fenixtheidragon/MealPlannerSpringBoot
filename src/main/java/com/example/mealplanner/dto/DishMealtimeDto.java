@@ -10,8 +10,8 @@ public class DishMealtimeDto {
   private Long id;
   private Long dishId;
   private Long mealtimeId;
-  private Integer dishAmount;
-  private AmountType amountType;
+  private Integer dishAmount = 0;
+  private AmountType amountType = AmountType.GRAMS;
   public DishMealtimeDto(DishMealtime dishMealtime) {
     this.id = dishMealtime.getId();
     this.dishId = dishMealtime.getDish().getId();

@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MealCourseDto {
   private Long mealtimeId;
-  private List<DishDto> dishDtoList;
+  private List<DishDto> dishDtoList = new ArrayList<>();
 
   public MealCourseDto(Mealtime mealtime) {
     this.mealtimeId = mealtime.getId();
