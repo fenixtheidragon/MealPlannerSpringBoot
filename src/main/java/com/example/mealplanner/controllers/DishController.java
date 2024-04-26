@@ -26,19 +26,6 @@ public class DishController extends GeneralController<DishDto> {
     return dishService.findByName(name);
   }
 
-  @PostMapping("/{id}/recipe")
-  public ResponseEntity<RecipeDto> saveRecipe(@PathVariable Long id, @RequestBody RecipeDto recipeDto) {
-    recipeDto.getIngredientDtoList().forEach(ingredientDto -> {
-      var dishIngredientDto = new DishIngredientDto();
-      dishIngredientDto.setDishId(recipeDto.getDishId());
-      dishIngredientDto.setIngredientId(ingredientDto.getId());
-      dishIngredientDto.setIngredientAmount(ingredientDto.getAmount());
-      dishIngredientDto.setAmountType(ingredientDto.getAmountType());
-      dishIngredientService.save(dishIngredientDto);
-    });
-    return ResponseEntity.ok(recipeDto);
-  }
-
   @GetMapping("/{id}/recipe")
   public ResponseEntity<RecipeDto> getRecipe(@PathVariable Long id) {
     var dishDto = dishService.findById(id).getBody();
@@ -50,5 +37,18 @@ public class DishController extends GeneralController<DishDto> {
     var ingredientDtoList = dishIngredientService.findIngredientDtoListByDishId(dish.getId()).getBody();
     recipeDto.setIngredientDtoList(ingredientDtoList);
     return new ResponseEntity<>(recipeDto, HttpStatus.FOUND);
+  }
+
+  @PostMapping("/{id}/recipe")
+  public ResponseEntity<RecipeDto> saveRecipe(@PathVariable Long id, @RequestBody RecipeDto recipeDto) {
+    recipeDto.getIngredientDtoList().forEach(ingredientDto -> {
+      var dishIngredientDto = new DishIngredientDto();
+      dishIngredientDto.setDishId(recipeDto.getDishId());
+      dishIngredientDto.setIngredientId(ingredientDto.getId());
+      dishIngredientDto.setIngredientAmount(ingredientDto.getAmount());
+      dishIngredientDto.setAmountType(ingredientDto.getAmountType());
+      dishIngredientService.save(dishIngredientDto);
+    });
+    return ResponseEntity.ok(recipeDto);
   }
 }

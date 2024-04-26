@@ -11,14 +11,14 @@ public class DishDto {
   private Long id;
   private String name = "";
   private String recipeDescription = "";
-  private Integer availableAmount = 0;
+  private Integer amount = 0;
   private AmountType amountType = AmountType.GRAMS;
 
   public DishDto(Dish dish) {
     this.id = dish.getId();
     this.name = dish.getName();
     this.recipeDescription = dish.getRecipeDescription();
-    this.availableAmount = dish.getAvailableAmount();
+    this.amount = dish.getAvailableAmount();
     this.amountType = dish.getAmountType();
   }
 }

@@ -21,7 +21,7 @@ public class DishDtoRequestValidator extends AbstractCRUDRequestValidator<DishDt
   @Override
   public void validateSaveRequest(DishDto dishDto) {
     validateIdForSaveRequest(dishDto.getId());
-    validateAmount(dishDto.getAvailableAmount());
+    validateAmount(dishDto.getAmount());
     validateNameForSaveRequest(dishDto.getName());
   }
 
@@ -29,7 +29,7 @@ public class DishDtoRequestValidator extends AbstractCRUDRequestValidator<DishDt
   public void validateUpdateRequest(DishDto dishDto) {
     var id = dishDto.getId();
     validateIdForUpdateOrDeleteRequest(id);
-    validateAmount(dishDto.getAvailableAmount());
+    validateAmount(dishDto.getAmount());
     validateNameForUpdateRequest(dishDto.getName(), id);
   }
 

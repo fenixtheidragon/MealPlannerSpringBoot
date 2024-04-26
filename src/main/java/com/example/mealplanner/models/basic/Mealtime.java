@@ -34,12 +34,12 @@ public class Mealtime {
 
   @JsonIgnore
   @OneToMany(mappedBy = "mealtime", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<DishMealtime> dishMealtimes;
+  private Set<DishMealtime> dishMealtimeSet;
 
   public Mealtime(MealtimeDto mealtimeDto) {
     this.id = mealtimeDto.getId();
     this.day = mealtimeDto.getDay();
     this.category = mealtimeDto.getCategory();
-    this.dishMealtimes = new HashSet<>();
+    this.dishMealtimeSet = new HashSet<>();
   }
 }

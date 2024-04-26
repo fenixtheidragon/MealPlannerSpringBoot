@@ -41,25 +41,21 @@ public class Dish {
 
   @JsonIgnore
   @OneToMany(mappedBy = "dish" , fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<DishIngredient> dishToIngredientRelations = new HashSet<>();
+  private Set<DishIngredient> dishIngredientSet = new HashSet<>();
 
   @JsonIgnore
   @OneToMany(mappedBy = "dish", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<DishMealtime> dishToMealRelations = new HashSet<>();
+  private Set<DishMealtime> dishMealtimeSet = new HashSet<>();
 
   public Dish(DishDto dishDto) {
     this.id = dishDto.getId();
     this.name = dishDto.getName();
     this.recipeDescription = dishDto.getRecipeDescription();
-    this.availableAmount = dishDto.getAvailableAmount();
+    this.availableAmount = dishDto.getAmount();
     this.amountType = dishDto.getAmountType();
   }
 
   public boolean isAvailable() {
     return availableAmount > 0;
-  }
-
-  public void addDishToIngredientRelation(DishIngredient relation) {
-    this.dishToIngredientRelations.add(relation);
   }
 }

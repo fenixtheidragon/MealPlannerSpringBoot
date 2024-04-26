@@ -43,7 +43,9 @@ public class DishIngredientServiceImpl implements DishIngredientService {
     validator.validateSaveRequest(dishIngredientDto);
     var dish = getDishFrom(dishIngredientDto);
     var ingredient = getIngredientFrom(dishIngredientDto);
-    dishIngredientRepository.save(new DishIngredient(dishIngredientDto, dish, ingredient));
+    var dishIngredient = new DishIngredient(dishIngredientDto, dish, ingredient);
+    dishIngredientRepository.save(dishIngredient);
+    dishIngredientDto = new DishIngredientDto(dishIngredient);
     return ResponseEntity.ok(dishIngredientDto);
   }
 
@@ -52,7 +54,9 @@ public class DishIngredientServiceImpl implements DishIngredientService {
     validator.validateUpdateRequest(dishIngredientDto);
     var dish = getDishFrom(dishIngredientDto);
     var ingredient = getIngredientFrom(dishIngredientDto);
-    dishIngredientRepository.save(new DishIngredient(dishIngredientDto, dish, ingredient));
+    var dishIngredient = new DishIngredient(dishIngredientDto, dish, ingredient);
+    dishIngredientRepository.save(dishIngredient);
+    dishIngredientDto = new DishIngredientDto(dishIngredient);
     return ResponseEntity.ok(dishIngredientDto);
   }
 

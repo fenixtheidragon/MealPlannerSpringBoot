@@ -38,7 +38,9 @@ public class DishMealtimeServiceImpl implements DishMealtimeService {
     validator.validateSaveRequest(dishMealtimeDto);
     var dish = getDishFrom(dishMealtimeDto);
     var mealtime = getMealtimeFrom(dishMealtimeDto);
-    dishMealtimeRepository.save(new DishMealtime(dishMealtimeDto, dish, mealtime));
+    var dishMealtime = new DishMealtime(dishMealtimeDto, dish, mealtime);
+    dishMealtimeRepository.save(dishMealtime);
+    dishMealtimeDto = new DishMealtimeDto(dishMealtime);
     return ResponseEntity.ok(dishMealtimeDto);
   }
 
@@ -47,7 +49,9 @@ public class DishMealtimeServiceImpl implements DishMealtimeService {
     validator.validateUpdateRequest(dishMealtimeDto);
     var dish = getDishFrom(dishMealtimeDto);
     var mealtime = getMealtimeFrom(dishMealtimeDto);
-    dishMealtimeRepository.save(new DishMealtime(dishMealtimeDto, dish, mealtime));
+    var dishMealtime = new DishMealtime(dishMealtimeDto, dish, mealtime);
+    dishMealtimeRepository.save(dishMealtime);
+    dishMealtimeDto = new DishMealtimeDto(dishMealtime);
     return ResponseEntity.ok(dishMealtimeDto);
   }
 

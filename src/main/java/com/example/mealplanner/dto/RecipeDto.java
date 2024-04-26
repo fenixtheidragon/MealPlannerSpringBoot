@@ -22,7 +22,7 @@ public class RecipeDto {
 
   private static List<IngredientDto> extractIngredientDtoListFrom(Dish dish) {
     var ingredientDtoList = new ArrayList<IngredientDto>();
-    dish.getDishToIngredientRelations().forEach(dishIngredient -> {
+    dish.getDishIngredientSet().forEach(dishIngredient -> {
       var ingredientDto = new IngredientDto(dishIngredient.getIngredient());
       ingredientDtoList.add(ingredientDto);
     });

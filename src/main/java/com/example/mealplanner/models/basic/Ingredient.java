@@ -38,7 +38,7 @@ public class Ingredient {
 
   @JsonIgnore
   @OneToMany(mappedBy = "ingredient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private Set<DishIngredient> dishToIngredientRelations = new HashSet<>();
+  private Set<DishIngredient> dishIngredientSet = new HashSet<>();
 
   public Ingredient(IngredientDto ingredientDto) {
     this.id = ingredientDto.getId();
@@ -48,9 +48,5 @@ public class Ingredient {
   }
   public boolean isAvailable() {
     return availableAmount > 0;
-  }
-
-  public void addDishToIngredientRelation(DishIngredient relation) {
-    this.dishToIngredientRelations.add(relation);
   }
 }

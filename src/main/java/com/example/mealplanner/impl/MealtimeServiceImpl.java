@@ -35,14 +35,18 @@ public class MealtimeServiceImpl implements MealtimeService {
   @Override
   public ResponseEntity<MealtimeDto> save(MealtimeDto mealtimeDto) {
     validator.validateSaveRequest(mealtimeDto);
-    repository.save(new Mealtime(mealtimeDto));
+    var mealtime = new Mealtime(mealtimeDto);
+    repository.save(mealtime);
+    mealtimeDto = new MealtimeDto(mealtime);
     return new ResponseEntity<>(mealtimeDto, HttpStatus.OK);
   }
 
   @Override
   public ResponseEntity<MealtimeDto> update(MealtimeDto mealtimeDto) {
     validator.validateUpdateRequest(mealtimeDto);
-    repository.save(new Mealtime(mealtimeDto));
+    var mealtime = new Mealtime(mealtimeDto);
+    repository.save(mealtime);
+    mealtimeDto = new MealtimeDto(mealtime);
     return new ResponseEntity<>(mealtimeDto, HttpStatus.OK);
   }
 
