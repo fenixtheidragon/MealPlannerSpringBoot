@@ -1,6 +1,7 @@
 package com.example.mealplanner.controllers;
 
 import com.example.mealplanner.dto.*;
+import com.example.mealplanner.helpers.exceptions.ResourceNotFoundException;
 import com.example.mealplanner.models.basic.Mealtime;
 import com.example.mealplanner.services.DishMealtimeService;
 import com.example.mealplanner.services.MealtimeService;
@@ -22,10 +23,10 @@ public class MealtimeController extends GeneralController<MealtimeDto> {
   }
 
   @GetMapping("/{id}/mealcourse")
-  public ResponseEntity<MealCourseDto> getMealCourse(@PathVariable Long id) {
-    var mealtimeDto = mealtimeService.findById(id).getBody();
+  public ResponseEntity<MealCourseDto> getMealCourseByMealtimeId(@PathVariable Long mealtimeId) {
+    var mealtimeDto = mealtimeService.findById(mealtimeId).getBody();
     if (mealtimeDto == null) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      throw new ResourceNotFoundException(Mealtime.class.getSimpleName(), "id", String.valueOf(mealtimeId));
     }
     var mealtime = new Mealtime(mealtimeDto);
     var mealCourseDto = new MealCourseDto(mealtime);
