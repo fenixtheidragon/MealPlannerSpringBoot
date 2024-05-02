@@ -22,15 +22,19 @@ public class MealtimeDtoRequestValidator implements CRUDRequestValidator<Mealtim
   @Override
   public void validateUpdateRequest(MealtimeDto mealtimeDto) {
     var id = mealtimeDto.getId();
+    validateIdForUpdateOrDeleteRequest(id);
+  }
+
+  @Override
+  public void validateDeleteRequest(Long id) {
+    validateIdForUpdateOrDeleteRequest(id);
+  }
+
+  private void validateIdForUpdateOrDeleteRequest(Long id) {
     if (id == null) {
       throw new IllegalArgumentException("Mealtime's id shouldn't be null.");
     }
     repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "id", String.valueOf(id)));
-  }
-
-  @Override
-  public void validateDeleteRequest(Long id) {
-
   }
 }

@@ -2,6 +2,7 @@ package com.example.mealplanner.controllers;
 
 import com.example.mealplanner.dto.DishDto;
 import com.example.mealplanner.dto.DishIngredientDto;
+import com.example.mealplanner.dto.IngredientDto;
 import com.example.mealplanner.dto.RecipeDto;
 import com.example.mealplanner.helpers.exceptions.ResourceNotFoundException;
 import com.example.mealplanner.models.basic.Dish;
@@ -37,14 +38,19 @@ public class DishController extends GeneralController<DishDto> {
   @PostMapping("/{id}/recipe")
   public ResponseEntity<RecipeDto> saveRecipe(@PathVariable Long dishId, @RequestBody RecipeDto recipeDto) {
     recipeDto.getIngredientDtoList().forEach(ingredientDto -> {
-      var dishIngredientDto = new DishIngredientDto();
-      dishIngredientDto.setDishId(dishId);
-      dishIngredientDto.setIngredientId(ingredientDto.getId());
-      dishIngredientDto.setIngredientAmount(ingredientDto.getAmount());
-      dishIngredientDto.setAmountType(ingredientDto.getAmountType());
+      var dishIngredientDto = createDishIngredientDto(dishId, ingredientDto);
       dishIngredientService.save(dishIngredientDto);
     });
     return ResponseEntity.ok(recipeDto);
+  }
+
+  private DishIngredientDto createDishIngredientDto(Long dishId, IngredientDto ingredientDto) {
+    var dishIngredientDto = new DishIngredientDto();
+    dishIngredientDto.setDishId(dishId);
+    dishIngredientDto.setIngredientId(ingredientDto.getId());
+    dishIngredientDto.setIngredientAmount(ingredientDto.getAmount());
+    dishIngredientDto.setAmountType(ingredientDto.getAmountType());
+    return dishIngredientDto;
   }
 
   private ResponseEntity<RecipeDto> getRecipeByDishId(Long dishId) {

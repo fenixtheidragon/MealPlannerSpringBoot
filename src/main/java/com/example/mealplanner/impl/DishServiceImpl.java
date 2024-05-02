@@ -36,18 +36,14 @@ public class DishServiceImpl implements DishService {
   @Override
   public ResponseEntity<DishDto> save(DishDto dishDto) {
     validator.validateSaveRequest(dishDto);
-    var dish = new Dish(dishDto);
-    repository.save(dish);
-    dishDto = new DishDto(dish);
+    dishDto = saveAndRefresh(dishDto);
     return ResponseEntity.ok(dishDto);
   }
 
   @Override
   public ResponseEntity<DishDto> update(DishDto dishDto) {
     validator.validateUpdateRequest(dishDto);
-    var dish = new Dish(dishDto);
-    repository.save(dish);
-    dishDto = new DishDto(dish);
+    dishDto = saveAndRefresh(dishDto);
     return ResponseEntity.ok(dishDto);
   }
 
@@ -70,5 +66,11 @@ public class DishServiceImpl implements DishService {
     var dish = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "id", String.valueOf(id)));
     return new ResponseEntity<>(new DishDto(dish), HttpStatus.FOUND);
+  }
+
+  private DishDto saveAndRefresh(DishDto dishDto) {
+    var dish = new Dish(dishDto);
+    repository.save(dish);
+    return new DishDto(dish);
   }
 }

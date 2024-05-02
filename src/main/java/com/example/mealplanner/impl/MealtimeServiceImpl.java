@@ -35,18 +35,14 @@ public class MealtimeServiceImpl implements MealtimeService {
   @Override
   public ResponseEntity<MealtimeDto> save(MealtimeDto mealtimeDto) {
     validator.validateSaveRequest(mealtimeDto);
-    var mealtime = new Mealtime(mealtimeDto);
-    repository.save(mealtime);
-    mealtimeDto = new MealtimeDto(mealtime);
+    mealtimeDto = saveAndRefresh(mealtimeDto);
     return new ResponseEntity<>(mealtimeDto, HttpStatus.OK);
   }
 
   @Override
   public ResponseEntity<MealtimeDto> update(MealtimeDto mealtimeDto) {
     validator.validateUpdateRequest(mealtimeDto);
-    var mealtime = new Mealtime(mealtimeDto);
-    repository.save(mealtime);
-    mealtimeDto = new MealtimeDto(mealtime);
+    mealtimeDto = saveAndRefresh(mealtimeDto);
     return new ResponseEntity<>(mealtimeDto, HttpStatus.OK);
   }
 
@@ -62,5 +58,11 @@ public class MealtimeServiceImpl implements MealtimeService {
     var mealtime = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException(Mealtime.class.getName(), "id", String.valueOf(id)));
     return new ResponseEntity<>(new MealtimeDto(mealtime), HttpStatus.FOUND);
+  }
+
+  private MealtimeDto saveAndRefresh(MealtimeDto mealtimeDto) {
+    var mealtime = new Mealtime(mealtimeDto);
+    repository.save(mealtime);
+    return new MealtimeDto(mealtime);
   }
 }

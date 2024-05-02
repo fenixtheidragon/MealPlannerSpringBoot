@@ -36,18 +36,14 @@ public class IngredientServiceImpl implements IngredientService {
   @Override
   public ResponseEntity<IngredientDto> save(IngredientDto ingredientDto) {
     validator.validateSaveRequest(ingredientDto);
-    var ingredient = new Ingredient(ingredientDto);
-    repository.save(ingredient);
-    ingredientDto = new IngredientDto(ingredient);
+    ingredientDto = saveAndRefresh(ingredientDto);
     return ResponseEntity.ok(ingredientDto);
   }
 
   @Override
   public ResponseEntity<IngredientDto> update(IngredientDto ingredientDto) {
     validator.validateUpdateRequest(ingredientDto);
-    var ingredient = new Ingredient(ingredientDto);
-    repository.save(ingredient);
-    ingredientDto = new IngredientDto(ingredient);
+    ingredientDto = saveAndRefresh(ingredientDto);
     return ResponseEntity.ok(ingredientDto);
   }
 
@@ -70,5 +66,11 @@ public class IngredientServiceImpl implements IngredientService {
     var ingredient = repository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException(resourceClassName, "id", String.valueOf(id)));
     return new ResponseEntity<>(new IngredientDto(ingredient), HttpStatus.FOUND);
+  }
+
+  private IngredientDto saveAndRefresh(IngredientDto ingredientDto) {
+    var ingredient = new Ingredient(ingredientDto);
+    repository.save(ingredient);
+    return new IngredientDto(ingredient);
   }
 }

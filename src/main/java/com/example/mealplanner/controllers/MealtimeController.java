@@ -24,27 +24,43 @@ public class MealtimeController extends GeneralController<MealtimeDto> {
 
   @GetMapping("/{id}/mealcourse")
   public ResponseEntity<MealCourseDto> getMealCourseByMealtimeId(@PathVariable Long mealtimeId) {
-    var mealtimeDto = mealtimeService.findById(mealtimeId).getBody();
-    if (mealtimeDto == null) {
-      throw new ResourceNotFoundException(Mealtime.class.getSimpleName(), "id", String.valueOf(mealtimeId));
-    }
-    var mealtime = new Mealtime(mealtimeDto);
-    var mealCourseDto = new MealCourseDto(mealtime);
-    var dishDtoList = dishMealtimeService.findDishDtoListByMealtimeId(mealtime.getId()).getBody();
-    mealCourseDto.setDishDtoList(dishDtoList);
+    var mealCourseDto = getMealCourseDto(mealtimeId);
     return new ResponseEntity<>(mealCourseDto, HttpStatus.FOUND);
   }
 
   @PostMapping("/{id}/mealcourse")
-  public ResponseEntity<MealCourseDto> saveMealCourse(@PathVariable Long id, @RequestBody MealCourseDto mealCourseDto) {
+  public ResponseEntity<MealCourseDto> saveMealCourse(
+      @PathVariable Long mealtimeId, @RequestBody MealCourseDto mealCourseDto
+  ) {
     mealCourseDto.getDishDtoList().forEach(dishDto -> {
-      var dishMealtimeDto = new DishMealtimeDto();
-      dishMealtimeDto.setMealtimeId(mealCourseDto.getMealtimeId());
-      dishMealtimeDto.setDishId(dishDto.getId());
-      dishMealtimeDto.setDishAmount(dishDto.getAmount());
-      dishMealtimeDto.setAmountType(dishDto.getAmountType());
+      var dishMealtimeDto = createDishMealtimeDto(mealtimeId, dishDto);
       dishMealtimeService.save(dishMealtimeDto);
     });
     return ResponseEntity.ok(mealCourseDto);
+  }
+
+  private DishMealtimeDto createDishMealtimeDto(Long mealtimeId, DishDto dishDto) {
+    var dishMealtimeDto = new DishMealtimeDto();
+    dishMealtimeDto.setMealtimeId(mealtimeId);
+    dishMealtimeDto.setDishId(dishDto.getId());
+    dishMealtimeDto.setDishAmount(dishDto.getAmount());
+    dishMealtimeDto.setAmountType(dishDto.getAmountType());
+    return dishMealtimeDto;
+  }
+
+  private MealCourseDto getMealCourseDto(Long mealtimeId) {
+    var mealtime = getMealtime(mealtimeId);
+    var mealCourseDto = new MealCourseDto(mealtime);
+    var dishDtoList = dishMealtimeService.findDishDtoListByMealtimeId(mealtime.getId()).getBody();
+    mealCourseDto.setDishDtoList(dishDtoList);
+    return mealCourseDto;
+  }
+
+  private Mealtime getMealtime(Long mealtimeId) {
+    var mealtimeDto = mealtimeService.findById(mealtimeId).getBody();
+    if (mealtimeDto == null) {
+      throw new ResourceNotFoundException(Mealtime.class.getSimpleName(), "id", String.valueOf(mealtimeId));
+    }
+    return new Mealtime(mealtimeDto);
   }
 }

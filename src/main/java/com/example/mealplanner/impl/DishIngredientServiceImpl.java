@@ -41,22 +41,14 @@ public class DishIngredientServiceImpl implements DishIngredientService {
   @Override
   public ResponseEntity<DishIngredientDto> save(DishIngredientDto dishIngredientDto) {
     validator.validateSaveRequest(dishIngredientDto);
-    var dish = getDishFrom(dishIngredientDto);
-    var ingredient = getIngredientFrom(dishIngredientDto);
-    var dishIngredient = new DishIngredient(dishIngredientDto, dish, ingredient);
-    dishIngredientRepository.save(dishIngredient);
-    dishIngredientDto = new DishIngredientDto(dishIngredient);
+    dishIngredientDto = saveAndRefresh(dishIngredientDto);
     return ResponseEntity.ok(dishIngredientDto);
   }
 
   @Override
   public ResponseEntity<DishIngredientDto> update(DishIngredientDto dishIngredientDto) {
     validator.validateUpdateRequest(dishIngredientDto);
-    var dish = getDishFrom(dishIngredientDto);
-    var ingredient = getIngredientFrom(dishIngredientDto);
-    var dishIngredient = new DishIngredient(dishIngredientDto, dish, ingredient);
-    dishIngredientRepository.save(dishIngredient);
-    dishIngredientDto = new DishIngredientDto(dishIngredient);
+    dishIngredientDto = saveAndRefresh(dishIngredientDto);
     return ResponseEntity.ok(dishIngredientDto);
   }
 
@@ -76,13 +68,30 @@ public class DishIngredientServiceImpl implements DishIngredientService {
 
   @Override
   public ResponseEntity<List<IngredientDto>> findIngredientDtoListByDishId(Long dishId) {
+    var ingredientDtoList = getIngredientDtoListByDishId(dishId);
+    return new ResponseEntity<>(ingredientDtoList, HttpStatus.FOUND);
+  }
+
+  private List<IngredientDto> getIngredientDtoListByDishId(Long dishId) {
     var ingredientDtoList = new ArrayList<IngredientDto>();
     var dishIngredientList = dishIngredientRepository.findDishIngredientsByDishId(dishId);
     dishIngredientList.forEach(dishIngredient -> {
       var ingredient = dishIngredient.getIngredient();
       ingredientDtoList.add(new IngredientDto(ingredient));
     });
-    return new ResponseEntity<>(ingredientDtoList, HttpStatus.FOUND);
+    return ingredientDtoList;
+  }
+
+  private DishIngredient getDishIngredientFrom(DishIngredientDto dishIngredientDto) {
+    var dish = getDishFrom(dishIngredientDto);
+    var ingredient = getIngredientFrom(dishIngredientDto);
+    return new DishIngredient(dishIngredientDto, dish, ingredient);
+  }
+
+  private DishIngredientDto saveAndRefresh(DishIngredientDto dishIngredientDto) {
+    var dishIngredient = getDishIngredientFrom(dishIngredientDto);
+    dishIngredientRepository.save(dishIngredient);
+    return new DishIngredientDto(dishIngredient);
   }
 
   private Dish getDishFrom(DishIngredientDto dishIngredientDto) {

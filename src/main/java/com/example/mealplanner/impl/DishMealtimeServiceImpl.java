@@ -36,22 +36,14 @@ public class DishMealtimeServiceImpl implements DishMealtimeService {
   @Override
   public ResponseEntity<DishMealtimeDto> save(DishMealtimeDto dishMealtimeDto) {
     validator.validateSaveRequest(dishMealtimeDto);
-    var dish = getDishFrom(dishMealtimeDto);
-    var mealtime = getMealtimeFrom(dishMealtimeDto);
-    var dishMealtime = new DishMealtime(dishMealtimeDto, dish, mealtime);
-    dishMealtimeRepository.save(dishMealtime);
-    dishMealtimeDto = new DishMealtimeDto(dishMealtime);
+    dishMealtimeDto = saveAndRefresh(dishMealtimeDto);
     return ResponseEntity.ok(dishMealtimeDto);
   }
 
   @Override
   public ResponseEntity<DishMealtimeDto> update(DishMealtimeDto dishMealtimeDto) {
     validator.validateUpdateRequest(dishMealtimeDto);
-    var dish = getDishFrom(dishMealtimeDto);
-    var mealtime = getMealtimeFrom(dishMealtimeDto);
-    var dishMealtime = new DishMealtime(dishMealtimeDto, dish, mealtime);
-    dishMealtimeRepository.save(dishMealtime);
-    dishMealtimeDto = new DishMealtimeDto(dishMealtime);
+    dishMealtimeDto = saveAndRefresh(dishMealtimeDto);
     return ResponseEntity.ok(dishMealtimeDto);
   }
 
@@ -71,13 +63,26 @@ public class DishMealtimeServiceImpl implements DishMealtimeService {
 
   @Override
   public ResponseEntity<List<DishDto>> findDishDtoListByMealtimeId(Long mealtimeId) {
+    var dishDtoList = getDishDtoListByMealTimeId(mealtimeId);
+    return new ResponseEntity<>(dishDtoList, HttpStatus.FOUND);
+  }
+
+  private List<DishDto> getDishDtoListByMealTimeId(Long mealtimeId) {
     var dishDtoList = new ArrayList<DishDto>();
     var dishMealtimeList = dishMealtimeRepository.findDishMealtimesByMealtimeId(mealtimeId);
     dishMealtimeList.forEach(dishMealtime -> {
       var dish = dishMealtime.getDish();
       dishDtoList.add(new DishDto(dish));
     });
-    return new ResponseEntity<>(dishDtoList, HttpStatus.FOUND);
+    return dishDtoList;
+  }
+
+  private DishMealtimeDto saveAndRefresh(DishMealtimeDto dishMealtimeDto) {
+    var dish = getDishFrom(dishMealtimeDto);
+    var mealtime = getMealtimeFrom(dishMealtimeDto);
+    var dishMealtime = new DishMealtime(dishMealtimeDto, dish, mealtime);
+    dishMealtimeRepository.save(dishMealtime);
+    return new DishMealtimeDto(dishMealtime);
   }
 
   private Dish getDishFrom(DishMealtimeDto dishMealtimeDto) {
