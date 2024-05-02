@@ -68,6 +68,19 @@ public class IngredientServiceImpl implements IngredientService {
     return new ResponseEntity<>(new IngredientDto(ingredient), HttpStatus.FOUND);
   }
 
+  @Override
+  public ResponseEntity<List<IngredientDto>> findByLetters(String letters) {
+    return new ResponseEntity<>(getIngredientDtoList(letters), HttpStatus.OK);
+  }
+
+  private List<IngredientDto> getIngredientDtoList(String letters) {
+    var ingredientList = repository.findByLetters(letters);
+    var ingredientDtoList = new ArrayList<IngredientDto>();
+    ingredientList.forEach(ingredient ->
+        ingredientDtoList.add(new IngredientDto(ingredient))
+    );
+    return ingredientDtoList;
+  }
   private IngredientDto saveAndRefresh(IngredientDto ingredientDto) {
     var ingredient = new Ingredient(ingredientDto);
     repository.save(ingredient);

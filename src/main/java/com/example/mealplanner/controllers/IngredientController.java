@@ -5,6 +5,8 @@ import com.example.mealplanner.services.IngredientService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/ingredients")
@@ -17,5 +19,10 @@ public class IngredientController extends GeneralController<IngredientDto> {
   @GetMapping("/names/{name}")
   public ResponseEntity<IngredientDto> findByName(@PathVariable String name) {
     return service.findByName(name);
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<List<IngredientDto>> findByLetters(@RequestParam String letters) {
+    return service.findByLetters(letters);
   }
 }
