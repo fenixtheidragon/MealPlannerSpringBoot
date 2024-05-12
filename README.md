@@ -27,6 +27,7 @@ The following guides illustrate how to use some features concretely:
    * cd MealPlannerSpringBoot-master
 6) Запустить приложение:
    * ./mvnw spring-boot:run
+   * Зайти в браузер на localhost:8080
 7) Остановить приложение:
    * Ctrl+C
 
